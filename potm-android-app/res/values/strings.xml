@@ -4,5 +4,11 @@
     <string name="app_name">potm-android-app</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="body1">Últimas Semanas</string>
+    <string name="body2">Semana Atual</string>
+    <string name="body3">Relatório de Atividades</string>
+    <string name="label1">Últimas Semanas</string>
+    <string name="label2">Semana Atual</string>
+    <string name="label3">Relatório de Atividades</string>
 
 </resources>

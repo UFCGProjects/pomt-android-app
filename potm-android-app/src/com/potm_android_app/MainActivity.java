@@ -1,64 +1,139 @@
 package com.potm_android_app;
 
-import android.app.Activity;
 import android.app.ActionBar;
-import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity implements
+		ActionBar.TabListener {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+	CollectionPagerAdapter mCollectionPagerAdapter;
 
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment()).commit();
-        }
-    }
+	ViewPager mViewPager;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
 
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+		mCollectionPagerAdapter = new CollectionPagerAdapter(
+				getSupportFragmentManager());
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+		final ActionBar actionBar = getActionBar();
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+		actionBar.setHomeButtonEnabled(false);
 
-        public PlaceholderFragment() {
-        }
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container,
-                    false);
-            return rootView;
-        }
-    }
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mCollectionPagerAdapter);
+		mViewPager
+				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+					@Override
+					public void onPageSelected(int position) {
+
+						actionBar.setSelectedNavigationItem(position);
+					}
+				});
+
+		for (int i = 0; i < mCollectionPagerAdapter.getCount(); i++) {
+
+			actionBar.addTab(actionBar.newTab()
+					.setText(mCollectionPagerAdapter.getPageTitle(i))
+					.setTabListener(this));
+		}
+	}
+
+	public void onTabUnselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+	}
+
+	public void onTabSelected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+		.
+		mViewPager.setCurrentItem(tab.getPosition());
+	}
+
+	public void onTabReselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+	}
+
+	public class CollectionPagerAdapter extends FragmentPagerAdapter {
+
+		final int NUM_ITEMS = 3; // number of tabs
+
+		public CollectionPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int i) {
+			Fragment fragment = new TabFragment();
+			Bundle args = new Bundle();
+			args.putInt(TabFragment.ARG_OBJECT, i);
+			fragment.setArguments(args);
+			return fragment;
+		}
+
+		@Override
+		public int getCount() {
+			return NUM_ITEMS;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			String tabLabel = null;
+			switch (position) {
+			case 0:
+				tabLabel = getString(R.string.label1);
+				break;
+			case 1:
+				tabLabel = getString(R.string.label2);
+				break;
+			case 2:
+				tabLabel = getString(R.string.label3);
+				break;
+			}
+
+			return tabLabel;
+		}
+	}
+
+	public static class TabFragment extends Fragment {
+
+		public static final String ARG_OBJECT = "object";
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+
+			Bundle args = getArguments();
+			int position = args.getInt(ARG_OBJECT);
+
+			int tabLayout = 0;
+			switch (position) {
+			case 0:
+				tabLayout = R.layout.tab1;
+				break;
+			case 1:
+				tabLayout = R.layout.tab2;
+				break;
+			case 2:
+				tabLayout = R.layout.tab3;
+				break;
+			}
+
+			View rootView = inflater.inflate(tabLayout, container, false);
+
+			return rootView;
+		}
+	}
 
 }
