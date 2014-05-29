@@ -1,125 +1,195 @@
 package com.potm_android_app;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 
 import com.potm_android_app.adapter.TabsPagerAdapter;
 import com.potm_android_app.utils.PotmUtils;
 
 public class MainActivity extends FragmentActivity implements
-        ActionBar.TabListener {
+		ActionBar.TabListener {
 
-    TabsPagerAdapter mTabsAdapter;
+	TabsPagerAdapter mTabsAdapter;
 
-    ViewPager mViewPager;
+	private static String url = "http://pomt.herokuapp.com/api/ti";
 
-    private String[] mTabsNames = { "Semana 3", "Semana 2", "Semana 1" };
+	ViewPager mViewPager;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+	private String[] mTabsNames = { "Semana 3", "Semana 2", "Semana 1" };
 
-        mTabsAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
 
-        final ActionBar actionBar = getActionBar();
+		mTabsAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
-        actionBar.setHomeButtonEnabled(false);
+		final ActionBar actionBar = getActionBar();
 
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setHomeButtonEnabled(false);
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mTabsAdapter);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Adding Tabs
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mTabsAdapter);
 
-        for (String tab_name : mTabsNames) {
-            getActionBar().addTab(
-                    getActionBar().newTab().setText(tab_name)
-                            .setTabListener(this));
-        }
+		// Adding Tabs
 
-        mViewPager
-                .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
+		for (String tab_name : mTabsNames) {
+			getActionBar().addTab(
+					getActionBar().newTab().setText(tab_name)
+							.setTabListener(this));
+		}
 
-                        actionBar.setSelectedNavigationItem(position);
-                    }
-                });
+		mViewPager
+				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+					@Override
+					public void onPageSelected(int position) {
 
-    }
+						actionBar.setSelectedNavigationItem(position);
+					}
+				});
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+	}
 
-        requestTis();
-    }
+	@Override
+	protected void onResume() {
+		super.onResume();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return true;
-    }
+		requestTis();
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case android.R.id.home:
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
-        case R.id.action_add_ti:
-            PotmUtils.showToast(this, "Adding ti!");
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		return true;
+	}
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab,
-            FragmentTransaction fragmentTransaction) {
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// This ID represents the Home or Up button. In the case of this
+			// activity, the Up button is shown. Use NavUtils to allow users
+			// to navigate up one level in the application structure. For
+			// more details, see the Navigation pattern on Android Design:
+			//
+			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+			//
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		case R.id.action_add_ti:
+			Toast.makeText(getBaseContext(), "Enter some data!",
+					Toast.LENGTH_LONG).show();
+			// call AsynTask to perform network operation on separate thread
+			new JSONParse().execute();
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab,
-            FragmentTransaction fragmentTransaction) {
+			Toast.makeText(getBaseContext(), "Passou pelo async",
+					Toast.LENGTH_LONG).show();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
+	@Override
+	public void onTabUnselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+	}
 
-    @Override
-    public void onTabReselected(ActionBar.Tab tab,
-            FragmentTransaction fragmentTransaction) {
-    }
+	@Override
+	public void onTabSelected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
 
-    private void requestTis() {
+		mViewPager.setCurrentItem(tab.getPosition());
+	}
 
-        //        ArrayList<Ti> list = new ArrayList<Ti>();
-        //
-        //        for (int i = 0; i < 5; i++) {
-        //            list.add(new Ti("Teste " + i, String.valueOf(i * 5)));
-        //        }
-        //
-        //        for (int i = 0; i < 3; i++) {
-        //            ((WeekFragment) mTabsAdapter.getRegisteredFragment(i))
-        //                    .refreshUI(list);
-        //        }
+	@Override
+	public void onTabReselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+	}
 
-    }
+	private void requestTis() {
+
+		// ArrayList<Ti> list = new ArrayList<Ti>();
+		//
+		// for (int i = 0; i < 5; i++) {
+		// list.add(new Ti("Teste " + i, String.valueOf(i * 5)));
+		// }
+		//
+		// for (int i = 0; i < 3; i++) {
+		// ((WeekFragment) mTabsAdapter.getRegisteredFragment(i))
+		// .refreshUI(list);
+		// }
+
+	}
+
+	private class JSONParse extends AsyncTask<String, String, JSONObject> {
+		
+		
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+		}
+
+		@Override
+		protected JSONObject doInBackground(String... args) {
+
+			JSONParser jParser = new JSONParser();
+	       
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("_id", ""));
+			nameValuePairs.add(new BasicNameValuePair("username", "dirceu"));
+			nameValuePairs.add(new BasicNameValuePair("date_end", "2014-05-28T22:25:59.391Z"));
+			nameValuePairs.add(new BasicNameValuePair("date_begin", "2014-05-28T21:00:00.000Z"));
+			nameValuePairs.add(new BasicNameValuePair("category", "nennhuma"));
+			nameValuePairs.add(new BasicNameValuePair("description", "nada"));
+			nameValuePairs.add(new BasicNameValuePair("title", "les"));
+
+			JSONObject json = jParser.postData(url, nameValuePairs);
+			return json;
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject json) {
+			Toast.makeText(getBaseContext(), "enviou os dados",
+					Toast.LENGTH_LONG).show();
+
+		}
+
+	}
 }
