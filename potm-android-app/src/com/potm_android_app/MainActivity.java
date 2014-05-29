@@ -3,137 +3,123 @@ package com.potm_android_app;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import com.potm_android_app.adapter.TabsPagerAdapter;
+import com.potm_android_app.utils.PotmUtils;
 
 public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener {
+        ActionBar.TabListener {
 
-	CollectionPagerAdapter mCollectionPagerAdapter;
+    TabsPagerAdapter mTabsAdapter;
 
-	ViewPager mViewPager;
+    ViewPager mViewPager;
 
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+    private String[] mTabsNames = { "Semana 3", "Semana 2", "Semana 1" };
 
-		mCollectionPagerAdapter = new CollectionPagerAdapter(
-				getSupportFragmentManager());
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
 
-		final ActionBar actionBar = getActionBar();
+        mTabsAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
-		actionBar.setHomeButtonEnabled(false);
+        final ActionBar actionBar = getActionBar();
 
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setHomeButtonEnabled(false);
 
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mCollectionPagerAdapter);
-		mViewPager
-				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-					@Override
-					public void onPageSelected(int position) {
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-						actionBar.setSelectedNavigationItem(position);
-					}
-				});
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mTabsAdapter);
 
-		for (int i = 0; i < mCollectionPagerAdapter.getCount(); i++) {
+        // Adding Tabs
 
-			actionBar.addTab(actionBar.newTab()
-					.setText(mCollectionPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
-		}
-	}
+        for (String tab_name : mTabsNames) {
+            getActionBar().addTab(
+                    getActionBar().newTab().setText(tab_name)
+                            .setTabListener(this));
+        }
 
-	public void onTabUnselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
+        mViewPager
+                .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+                    @Override
+                    public void onPageSelected(int position) {
 
-	public void onTabSelected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		.
-		mViewPager.setCurrentItem(tab.getPosition());
-	}
+                        actionBar.setSelectedNavigationItem(position);
+                    }
+                });
 
-	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
+    }
 
-	public class CollectionPagerAdapter extends FragmentPagerAdapter {
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-		final int NUM_ITEMS = 3; // number of tabs
+        requestTis();
+    }
 
-		public CollectionPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
 
-		@Override
-		public Fragment getItem(int i) {
-			Fragment fragment = new TabFragment();
-			Bundle args = new Bundle();
-			args.putInt(TabFragment.ARG_OBJECT, i);
-			fragment.setArguments(args);
-			return fragment;
-		}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home:
+            // This ID represents the Home or Up button. In the case of this
+            // activity, the Up button is shown. Use NavUtils to allow users
+            // to navigate up one level in the application structure. For
+            // more details, see the Navigation pattern on Android Design:
+            //
+            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+            //
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
+        case R.id.action_add_ti:
+            PotmUtils.showToast(this, "Adding ti!");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-		@Override
-		public int getCount() {
-			return NUM_ITEMS;
-		}
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab,
+            FragmentTransaction fragmentTransaction) {
+    }
 
-		@Override
-		public CharSequence getPageTitle(int position) {
-			String tabLabel = null;
-			switch (position) {
-			case 0:
-				tabLabel = getString(R.string.label1);
-				break;
-			case 1:
-				tabLabel = getString(R.string.label2);
-				break;
-			case 2:
-				tabLabel = getString(R.string.label3);
-				break;
-			}
+    @Override
+    public void onTabSelected(ActionBar.Tab tab,
+            FragmentTransaction fragmentTransaction) {
 
-			return tabLabel;
-		}
-	}
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
 
-	public static class TabFragment extends Fragment {
+    @Override
+    public void onTabReselected(ActionBar.Tab tab,
+            FragmentTransaction fragmentTransaction) {
+    }
 
-		public static final String ARG_OBJECT = "object";
+    private void requestTis() {
 
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
+        //        ArrayList<Ti> list = new ArrayList<Ti>();
+        //
+        //        for (int i = 0; i < 5; i++) {
+        //            list.add(new Ti("Teste " + i, String.valueOf(i * 5)));
+        //        }
+        //
+        //        for (int i = 0; i < 3; i++) {
+        //            ((WeekFragment) mTabsAdapter.getRegisteredFragment(i))
+        //                    .refreshUI(list);
+        //        }
 
-			Bundle args = getArguments();
-			int position = args.getInt(ARG_OBJECT);
-
-			int tabLayout = 0;
-			switch (position) {
-			case 0:
-				tabLayout = R.layout.tab1;
-				break;
-			case 1:
-				tabLayout = R.layout.tab2;
-				break;
-			case 2:
-				tabLayout = R.layout.tab3;
-				break;
-			}
-
-			View rootView = inflater.inflate(tabLayout, container, false);
-
-			return rootView;
-		}
-	}
-
+    }
 }

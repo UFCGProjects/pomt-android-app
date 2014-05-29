@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">potm-android-app</string>
+    <string name="action_add_ti">Add Ti</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="body1">Últimas Semanas</string>
@@ -10,5 +11,7 @@
     <string name="label1">Últimas Semanas</string>
     <string name="label2">Semana Atual</string>
     <string name="label3">Relatório de Atividades</string>
+    <string name="no_ti">You dont has Ti</string>
+    
 
 </resources>
