@@ -28,9 +28,10 @@ public class PotmUtils {
     // Given a URL, establishes an HttpUrlConnection and retrieves
     // the web page content as a InputStream, which it returns as
     // a string.
-    public static String downloadUrl(String myurl) throws IOException {
+    public static String downloadUrl(String myurl) {
         InputStream is = null;
-
+        InputStreamReader isr = null;
+        BufferedReader br = null;
         try {
             final URL url = new URL(myurl);
             final HttpURLConnection conn = (HttpURLConnection) url
@@ -42,24 +43,35 @@ public class PotmUtils {
             conn.connect();
 
             is = conn.getInputStream();
+            isr = new InputStreamReader(is, "UTF-8");
+            br = new BufferedReader(isr);
 
-            final BufferedReader br = new BufferedReader(new InputStreamReader(
-                    is));
-
-            String contentAsString = "";
             String line;
+            StringBuffer buf = new StringBuffer();
 
             while ((line = br.readLine()) != null) {
-                contentAsString += line;
+                buf.append(line);
             }
 
-            return contentAsString;
+            is.close();
+            isr.close();
+            br.close();
 
+            return buf.toString();
+
+        } catch (IOException e) {
+            MyLog.error("Error when downloading url", e);
         } finally {
-            if (is != null) {
-                is.close();
+            try {
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                MyLog.error("Error when downloading url", e);
             }
         }
+
+        return null;
     }
 
     public static String getUrl() {

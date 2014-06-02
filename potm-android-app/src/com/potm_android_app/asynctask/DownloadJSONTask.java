@@ -1,21 +1,16 @@
 package com.potm_android_app.asynctask;
 
-import java.io.IOException;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.potm_android_app.MainActivity;
 import com.potm_android_app.utils.MyLog;
 import com.potm_android_app.utils.PotmUtils;
 
 public class DownloadJSONTask extends AsyncTask<String, Void, String> {
     private final Context context;
-    private String[] urls;
 
     public DownloadJSONTask(Context context) {
         this.context = context;
@@ -23,8 +18,6 @@ public class DownloadJSONTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... urls) {
-        this.urls = urls;
-
         // params comes from the execute() call: params[0] is the url.
 
         int trys = 10;
@@ -33,19 +26,12 @@ public class DownloadJSONTask extends AsyncTask<String, Void, String> {
         while (trys > 0) {
             trys--;
 
-            try {
+            MyLog.info("GET: " + urls[0]);
 
-                MyLog.info("GET: " + urls[0]);
+            result = PotmUtils.downloadUrl(urls[0]);
 
-                result = PotmUtils.downloadUrl(urls[0]);
-
-                if (result != null) {
-                    break;
-                }
-
-            } catch (final IOException e) {
-                MyLog.debug("Unable to retrieve web page. URL may be invalid: "
-                        + urls[0]);
+            if (result != null) {
+                break;
             }
 
             try {

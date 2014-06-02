@@ -17,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
@@ -24,6 +25,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.potm_android_app.adapter.TabsPagerAdapter;
@@ -56,8 +58,12 @@ public class MainActivity extends FragmentActivity implements
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mTabsAdapter);
+        View view = findViewById(R.id.pager);
+
+        if (view instanceof ViewPager) {
+            mViewPager = (ViewPager) view;
+            mViewPager.setAdapter(mTabsAdapter);
+        }
 
         // Adding Tabs
 
@@ -129,7 +135,9 @@ public class MainActivity extends FragmentActivity implements
     public void onTabSelected(ActionBar.Tab tab,
             FragmentTransaction fragmentTransaction) {
 
-        mViewPager.setCurrentItem(tab.getPosition());
+        if (mViewPager != null) {
+            mViewPager.setCurrentItem(tab.getPosition());
+        }
     }
 
     @Override
@@ -157,7 +165,13 @@ public class MainActivity extends FragmentActivity implements
             }
         }
 
-        ((WeekFragment) mTabsAdapter.getRegisteredFragment(0)).refreshUI(list);
+        if (mTabsAdapter != null) {
+            Fragment fragment = mTabsAdapter.getRegisteredFragment(0);
+
+            if (fragment instanceof WeekFragment) {
+                ((WeekFragment) fragment).refreshUI(list);
+            }
+        }
     }
 
     private class JSONParse extends AsyncTask<String, String, JSONObject> {
