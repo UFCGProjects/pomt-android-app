@@ -9,7 +9,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -28,8 +31,6 @@ public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
 	TabsPagerAdapter mTabsAdapter;
-
-	
 
 	ViewPager mViewPager;
 
@@ -98,13 +99,15 @@ public class MainActivity extends FragmentActivity implements
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.action_add_ti:
-			Toast.makeText(getBaseContext(), "Enter some data!",
-					Toast.LENGTH_LONG).show();
-			// call AsynTask to perform network operation on separate thread
-			new JSONParse().execute();
+			if (isConnected()) {
+				Toast.makeText(getBaseContext(), "Você está conectado",
+						Toast.LENGTH_LONG).show();
+				new JSONParse().execute();
+			} else {
+				Toast.makeText(getBaseContext(), "Você não está conectado!",
+						Toast.LENGTH_LONG).show();
+			}
 
-			Toast.makeText(getBaseContext(), "Passou pelo async",
-					Toast.LENGTH_LONG).show();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -129,22 +132,9 @@ public class MainActivity extends FragmentActivity implements
 
 	private void requestTis() {
 
-		// ArrayList<Ti> list = new ArrayList<Ti>();
-		//
-		// for (int i = 0; i < 5; i++) {
-		// list.add(new Ti("Teste " + i, String.valueOf(i * 5)));
-		// }
-		//
-		// for (int i = 0; i < 3; i++) {
-		// ((WeekFragment) mTabsAdapter.getRegisteredFragment(i))
-		// .refreshUI(list);
-		// }
-
 	}
 
 	private class JSONParse extends AsyncTask<String, String, JSONObject> {
-		
-		
 
 		@Override
 		protected void onPreExecute() {
@@ -156,22 +146,25 @@ public class MainActivity extends FragmentActivity implements
 		protected JSONObject doInBackground(String... args) {
 
 			JSONParser jParser = new JSONParser();
-	       
+
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		
+
 			nameValuePairs.add(new BasicNameValuePair("username", "developer"));
-			nameValuePairs.add(new BasicNameValuePair("date_end", String.valueOf(new GregorianCalendar().getTimeInMillis())));
-			nameValuePairs.add(new BasicNameValuePair("date_begin", String.valueOf(new GregorianCalendar().getTimeInMillis())));
+			nameValuePairs.add(new BasicNameValuePair("date_end", String
+					.valueOf(new GregorianCalendar().getTimeInMillis())));
+			nameValuePairs.add(new BasicNameValuePair("date_begin", String
+					.valueOf(new GregorianCalendar().getTimeInMillis())));
 			nameValuePairs.add(new BasicNameValuePair("category", "nenhuma"));
 			nameValuePairs.add(new BasicNameValuePair("description", "nada"));
 			nameValuePairs.add(new BasicNameValuePair("title", "les"));
 
-			JSONObject json = jParser.postData(PotmUtils.getServerURL(), nameValuePairs);
-			
+			JSONObject json = jParser.postData(PotmUtils.getServerURL(),
+					nameValuePairs);
+
 			if (json == null) {
 				Log.d("POMT", "error!!!!");
 			}
-			
+
 			return json;
 		}
 
@@ -182,5 +175,14 @@ public class MainActivity extends FragmentActivity implements
 
 		}
 
+	}
+
+	public boolean isConnected() {
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+		if (networkInfo != null && networkInfo.isConnected())
+			return true;
+		else
+			return false;
 	}
 }
