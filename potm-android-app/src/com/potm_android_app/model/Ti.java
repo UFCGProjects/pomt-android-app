@@ -3,11 +3,13 @@ package com.potm_android_app.model;
 public class Ti {
 
     private String mHour;
-    private String mTitle;
+	private String mMinutes;
+    private String mActivity;
 
-    public Ti(String title, String hour) {
-        mTitle = title;
+    public Ti(String activity, String hour,String minutes) {
+        mActivity = activity;
         mHour = hour;
+		mMinutes = minutes;
     }
 
     public String getHour() {
@@ -18,11 +20,19 @@ public class Ti {
         mHour = hour;
     }
 
-    public String getTitle() {
-        return mTitle;
+    public String getMinutes() {
+		return mMinutes;
+	}
+
+	public void setMinutes(String mMinutes) {
+		this.mMinutes = mMinutes;
+	}
+
+	public String getActivity() {
+        return mActivity;
     }
 
-    public void setTitle(String title) {
-        mTitle = title;
+    public void setActivity(String activity) {
+        mActivity = activity;
     }
 }

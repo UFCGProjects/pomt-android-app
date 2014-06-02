@@ -51,7 +51,7 @@ public class TiAdapter extends ArrayAdapter<Ti> {
 
         Ti ti = mList.get(position);
 
-        holder.txtTitle.setText(ti.getTitle());
+        holder.txtTitle.setText(ti.getActivity());
         holder.txtHours.setText(ti.getHour());
 
         return row;

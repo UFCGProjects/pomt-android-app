@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTitle"
+        android:layout_width="292dp"
+        android:layout_height="0dp"
+        android:layout_gravity="fill_horizontal"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="@string/activity" >
+
+        <requestFocus />
+    </AutoCompleteTextView>
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/buttonOK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/ok" />
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="closeActivity"
+        android:text="@string/cancel"/>
+
+</LinearLayout>

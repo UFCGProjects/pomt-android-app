@@ -1,42 +1,26 @@
 package com.potm_android_app;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-
 import com.potm_android_app.adapter.TabsPagerAdapter;
-import com.potm_android_app.utils.PotmUtils;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -44,6 +28,7 @@ public class MainActivity extends FragmentActivity implements
 	TabsPagerAdapter mTabsAdapter;
 
 	private static String url = "http://pomt.herokuapp.com/api/ti";
+	private Intent intent;
 
 	ViewPager mViewPager;
 
@@ -112,13 +97,16 @@ public class MainActivity extends FragmentActivity implements
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.action_add_ti:
+			intent = new Intent(this, RegisterTi.class);
+            startActivity(intent);
+            /* PotmUtils.showToast(this, "Adding ti!");
 			Toast.makeText(getBaseContext(), "Enter some data!",
 					Toast.LENGTH_LONG).show();
 			// call AsynTask to perform network operation on separate thread
 			new JSONParse().execute();
 
 			Toast.makeText(getBaseContext(), "Passou pelo async",
-					Toast.LENGTH_LONG).show();
+					Toast.LENGTH_LONG).show();*/
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -170,7 +158,7 @@ public class MainActivity extends FragmentActivity implements
 		protected JSONObject doInBackground(String... args) {
 
 			JSONParser jParser = new JSONParser();
-	       
+			
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			nameValuePairs.add(new BasicNameValuePair("_id", ""));
 			nameValuePairs.add(new BasicNameValuePair("username", "dirceu"));
