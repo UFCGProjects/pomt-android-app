@@ -1,28 +1,15 @@
 package com.potm_android_app;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -34,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-
 import com.potm_android_app.adapter.TabsPagerAdapter;
 import com.potm_android_app.utils.PotmUtils;
 
@@ -43,7 +29,7 @@ public class MainActivity extends FragmentActivity implements
 
 	TabsPagerAdapter mTabsAdapter;
 
-	private static String url = "http://pomt.herokuapp.com/api/ti";
+	
 
 	ViewPager mViewPager;
 
@@ -172,15 +158,20 @@ public class MainActivity extends FragmentActivity implements
 			JSONParser jParser = new JSONParser();
 	       
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("_id", ""));
-			nameValuePairs.add(new BasicNameValuePair("username", "dirceu"));
-			nameValuePairs.add(new BasicNameValuePair("date_end", "2014-05-28T22:25:59.391Z"));
-			nameValuePairs.add(new BasicNameValuePair("date_begin", "2014-05-28T21:00:00.000Z"));
-			nameValuePairs.add(new BasicNameValuePair("category", "nennhuma"));
+		
+			nameValuePairs.add(new BasicNameValuePair("username", "developer"));
+			nameValuePairs.add(new BasicNameValuePair("date_end", String.valueOf(new GregorianCalendar().getTimeInMillis())));
+			nameValuePairs.add(new BasicNameValuePair("date_begin", String.valueOf(new GregorianCalendar().getTimeInMillis())));
+			nameValuePairs.add(new BasicNameValuePair("category", "nenhuma"));
 			nameValuePairs.add(new BasicNameValuePair("description", "nada"));
 			nameValuePairs.add(new BasicNameValuePair("title", "les"));
 
-			JSONObject json = jParser.postData(url, nameValuePairs);
+			JSONObject json = jParser.postData(PotmUtils.getServerURL(), nameValuePairs);
+			
+			if (json == null) {
+				Log.d("POMT", "error!!!!");
+			}
+			
 			return json;
 		}
 

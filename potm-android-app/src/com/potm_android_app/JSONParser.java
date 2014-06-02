@@ -52,6 +52,7 @@ public class JSONParser {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
 		}
 		
 		try {
@@ -93,14 +94,16 @@ public class JSONParser {
 
             // Execute HTTP Post Request
             response = httpclient.execute(httppost);
-            
+        
+            return getJSONFromUrl(response);
             
         } catch (ClientProtocolException e) {
-           
+           e.printStackTrace();
         } catch (IOException e) {
-           
+        	e.printStackTrace();
         }
-        return getJSONFromUrl(response);
+        
+        return null;
 
     } 
 	
