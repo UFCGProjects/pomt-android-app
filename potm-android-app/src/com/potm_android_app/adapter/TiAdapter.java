@@ -41,8 +41,15 @@ public class TiAdapter extends ArrayAdapter<Ti> {
 
             holder = new TiHolder();
 
-            holder.txtTitle = (TextView) row.findViewById(R.id.textView1);
-            holder.txtHours = (TextView) row.findViewById(R.id.textView2);
+            View view = row.findViewById(R.id.textView1);
+            if (view instanceof TextView) {
+                holder.txtTitle = (TextView) view;
+            }
+
+            view = row.findViewById(R.id.textView2);
+            if (view instanceof TextView) {
+                holder.txtHours = (TextView) view;
+            }
 
             row.setTag(holder);
         } else {
