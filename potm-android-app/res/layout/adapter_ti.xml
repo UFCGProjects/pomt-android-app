@@ -2,21 +2,83 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="8dp" >
 
-    <TextView
-        android:id="@+id/textView1"
+    <RelativeLayout
+        android:id="@+id/layoutTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aula LES"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewProportion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textViewTitle"
+            android:layout_alignParentRight="true"
+            android:text="35%" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutMiddle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aula LES" />
+        android:layout_below="@+id/layoutTop" >
 
-    <TextView
-        android:id="@+id/textView2"
+        <TextView
+            android:id="@+id/textViewHoursBegin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="14:20" />
+
+        <TextView
+            android:id="@+id/textViewMinus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textViewHoursBegin"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_toRightOf="@+id/textViewHoursBegin"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/textViewHoursEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textViewHoursBegin"
+            android:layout_toRightOf="@+id/textViewMinus"
+            android:text="16:20" />
+
+        <TextView
+            android:id="@+id/textViewCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Class" />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/layoutBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@+id/textView1"
-        android:text="35%" />
+        android:layout_below="@+id/layoutMiddle"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/textViewDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewDescriptionTitle"
+            android:text="Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu pellentesque eros. Cras feugiat non nulla eu sollicitudin. Duis felis." />
+
+    </RelativeLayout>
 
 </RelativeLayout>

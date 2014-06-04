@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.Interval;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -161,8 +161,18 @@ public class MainActivity extends FragmentActivity implements
         for (int i = 0; i < json.length(); i++) {
             Ti ti;
             try {
-                ti = new Ti(json.getJSONObject(i).getString("title"),
-                        String.valueOf(i), "");
+                String title = json.getJSONObject(i).getString("title");
+                String category = json.getJSONObject(i).getString("category");
+                String description = json.getJSONObject(i).getString(
+                        "description");
+                long start = Long.parseLong(json.getJSONObject(i).getString(
+                        "date_begin"));
+                long end = Long.parseLong(json.getJSONObject(i).getString(
+                        "date_end"));
+
+                Interval interval = new Interval(start, end);
+
+                ti = new Ti(title, interval, category, description);
                 list.add(ti);
             } catch (JSONException e) {
                 MyLog.error("Error when add Ti", e);

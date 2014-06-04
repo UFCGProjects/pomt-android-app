@@ -6,6 +6,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +25,10 @@ import com.potm_android_app.R;
 public class PotmUtils {
 
     private static final String URL = "http://pomt.herokuapp.com/api/ti";
+    /**
+     * The Constant mFormat.
+     */
+    private static final String FORMAT_SHORT = "HH:mm";
 
     public static void showToast(Context context, String message) {
         Toast makeText = Toast.makeText(context, message, Toast.LENGTH_LONG);
@@ -101,6 +111,15 @@ public class PotmUtils {
         Toast.makeText(context,
                 context.getString(R.string.cant_without_connection),
                 Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Gets the date time format.
+     *
+     * @return the date time format
+     */
+    public static DateTimeFormatter getDateTimeFormat() {
+        return DateTimeFormat.forPattern(FORMAT_SHORT);
     }
 
 }

@@ -52,19 +52,9 @@ public class WeekFragment extends Fragment {
 
         if (view instanceof ListView) {
             ((ListView) view).setAdapter(mTiAdapter);
-            //            ((ListView) view).setEmptyView(rootView
-            //                    .findViewById(android.R.id.empty));
+            ((ListView) view).setEmptyView(rootView
+                    .findViewById(android.R.id.empty));
         }
-
-        //        ArrayList<Ti> list = new ArrayList<Ti>();
-        //
-        //        for (int i = 0; i < 5; i++) {
-        //            list.add(new Ti("Teste " + i, String.valueOf(i * 5)));
-        //        }
-        //
-        //        for (int i = 0; i < 3; i++) {
-        //            refreshUI(list);
-        //        }
 
         return rootView;
     }
