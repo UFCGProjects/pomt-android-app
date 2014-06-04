@@ -21,6 +21,11 @@ public class Ti {
         mProportion = "";
     }
 
+    public Ti(String title, String proportion) {
+        mTitle = title;
+        mProportion = proportion;
+    }
+
     public String getTitle() {
         return mTitle;
     }

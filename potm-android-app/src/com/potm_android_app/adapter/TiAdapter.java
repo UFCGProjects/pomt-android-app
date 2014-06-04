@@ -46,25 +46,25 @@ public class TiAdapter extends ArrayAdapter<Ti> {
                 holder.txtTitle = (TextView) view;
             }
 
-            view = row.findViewById(R.id.textViewHoursBegin);
-            if (view instanceof TextView) {
-                holder.txtHoursBegin = (TextView) view;
-            }
-
-            view = row.findViewById(R.id.textViewHoursEnd);
-            if (view instanceof TextView) {
-                holder.txtHoursEnd = (TextView) view;
-            }
-
-            view = row.findViewById(R.id.textViewCategory);
-            if (view instanceof TextView) {
-                holder.txtCategory = (TextView) view;
-            }
-
-            view = row.findViewById(R.id.textViewDescription);
-            if (view instanceof TextView) {
-                holder.txtDescription = (TextView) view;
-            }
+            //            view = row.findViewById(R.id.textViewHoursBegin);
+            //            if (view instanceof TextView) {
+            //                holder.txtHoursBegin = (TextView) view;
+            //            }
+            //
+            //            view = row.findViewById(R.id.textViewHoursEnd);
+            //            if (view instanceof TextView) {
+            //                holder.txtHoursEnd = (TextView) view;
+            //            }
+            //
+            //            view = row.findViewById(R.id.textViewCategory);
+            //            if (view instanceof TextView) {
+            //                holder.txtCategory = (TextView) view;
+            //            }
+            //
+            //            view = row.findViewById(R.id.textViewDescription);
+            //            if (view instanceof TextView) {
+            //                holder.txtDescription = (TextView) view;
+            //            }
 
             view = row.findViewById(R.id.textViewProportion);
             if (view instanceof TextView) {
@@ -79,10 +79,10 @@ public class TiAdapter extends ArrayAdapter<Ti> {
         Ti ti = mList.get(position);
 
         holder.txtTitle.setText(ti.getTitle());
-        holder.txtHoursBegin.setText(ti.getHoursBegin());
-        holder.txtHoursEnd.setText(ti.getHoursEnd());
-        holder.txtCategory.setText(ti.getCategory());
-        holder.txtDescription.setText(ti.getDescription());
+        //        holder.txtHoursBegin.setText(ti.getHoursBegin());
+        //        holder.txtHoursEnd.setText(ti.getHoursEnd());
+        //        holder.txtCategory.setText(ti.getCategory());
+        //        holder.txtDescription.setText(ti.getDescription());
         holder.txtProportion.setText(ti.getProportion());
 
         return row;
@@ -96,13 +96,13 @@ public class TiAdapter extends ArrayAdapter<Ti> {
 
         TextView txtTitle;
 
-        TextView txtHoursBegin;
-
-        TextView txtHoursEnd;
-
-        TextView txtCategory;
-
-        TextView txtDescription;
+        //        TextView txtHoursBegin;
+        //
+        //        TextView txtHoursEnd;
+        //
+        //        TextView txtCategory;
+        //
+        //        TextView txtDescription;
 
         TextView txtProportion;
 
