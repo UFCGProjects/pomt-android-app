@@ -12,7 +12,9 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -39,9 +41,11 @@ import com.potm_android_app.utils.PotmUtils;
 public class MainActivity extends FragmentActivity implements
         ActionBar.TabListener, DownloadJSONInterface {
 
+	Intent intent;
     TabsPagerAdapter mTabsAdapter;
 
     ViewPager mViewPager;
+    RegisterDialog dialog;
 
     private String[] mTabsNames = { "Semana 3", "Semana 2", "Semana 1" };
 
@@ -53,7 +57,8 @@ public class MainActivity extends FragmentActivity implements
         mTabsAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
         final ActionBar actionBar = getActionBar();
-
+        
+        
         actionBar.setHomeButtonEnabled(false);
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -112,15 +117,17 @@ public class MainActivity extends FragmentActivity implements
             NavUtils.navigateUpFromSameTask(this);
             return true;
         case R.id.action_add_ti:
-            if (isConnected()) {
-                Toast.makeText(getBaseContext(), "VocÃª estÃ¡ conectado",
+        	dialog = new RegisterDialog(this);
+        	dialog.show();
+         /*   if (isConnected()) {
+                Toast.makeText(getBaseContext(), "Você está conectado",
                         Toast.LENGTH_LONG).show();
                 new JSONParse().execute();
             } else {
-                Toast.makeText(getBaseContext(), "VocÃª nÃ£o estÃ¡ conectado!",
+                Toast.makeText(getBaseContext(), "Você não está conectado!",
                         Toast.LENGTH_LONG).show();
             }
-
+*/
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -157,8 +164,7 @@ public class MainActivity extends FragmentActivity implements
         for (int i = 0; i < json.length(); i++) {
             Ti ti;
             try {
-                ti = new Ti(json.getJSONObject(i).getString("title"),
-                        String.valueOf(i));
+                ti = new Ti(json.getJSONObject(i).getString("title"),String.valueOf(i),"");
                 list.add(ti);
             } catch (JSONException e) {
                 MyLog.error("Error when add Ti", e);
