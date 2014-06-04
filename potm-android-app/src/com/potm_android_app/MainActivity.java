@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -165,11 +166,12 @@ public class MainActivity extends FragmentActivity implements
                 String category = json.getJSONObject(i).getString("category");
                 String description = json.getJSONObject(i).getString(
                         "description");
-                long start = Long.parseLong(json.getJSONObject(i).getString(
+                Instant start = new Instant(json.getJSONObject(i).getString(
                         "date_begin"));
-                long end = Long.parseLong(json.getJSONObject(i).getString(
+                Instant end = new Instant(json.getJSONObject(i).getString(
                         "date_end"));
-
+                MyLog.debug(start.toString(PotmUtils.getDateTimeFormat())
+                        + " -> " + end.toString(PotmUtils.getDateTimeFormat()));
                 Interval interval = new Interval(start, end);
 
                 ti = new Ti(title, interval, category, description);
