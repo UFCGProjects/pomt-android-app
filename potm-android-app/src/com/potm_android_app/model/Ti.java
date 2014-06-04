@@ -57,11 +57,11 @@ public class Ti {
         return mInterval.getStart().toString(PotmUtils.getDateTimeFormat());
     }
 
-    public CharSequence getProportion() {
+    public String getProportion() {
         return mProportion;
     }
 
-    public CharSequence getHoursEnd() {
+    public String getHoursEnd() {
         return mInterval.getEnd().toString(PotmUtils.getDateTimeFormat());
     }
 

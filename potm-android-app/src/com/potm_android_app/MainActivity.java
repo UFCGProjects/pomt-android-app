@@ -170,8 +170,6 @@ public class MainActivity extends FragmentActivity implements
                         "date_begin"));
                 Instant end = new Instant(json.getJSONObject(i).getString(
                         "date_end"));
-                MyLog.debug(start.toString(PotmUtils.getDateTimeFormat())
-                        + " -> " + end.toString(PotmUtils.getDateTimeFormat()));
                 Interval interval = new Interval(start, end);
 
                 ti = new Ti(title, interval, category, description);

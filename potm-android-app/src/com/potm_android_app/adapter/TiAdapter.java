@@ -41,7 +41,7 @@ public class TiAdapter extends ArrayAdapter<Ti> {
 
             holder = new TiHolder();
 
-            View view = row.findViewById(R.id.textView1);
+            View view = row.findViewById(R.id.textViewTitle);
             if (view instanceof TextView) {
                 holder.txtTitle = (TextView) view;
             }
