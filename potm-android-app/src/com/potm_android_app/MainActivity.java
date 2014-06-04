@@ -41,7 +41,7 @@ import com.potm_android_app.utils.PotmUtils;
 public class MainActivity extends FragmentActivity implements
         ActionBar.TabListener, DownloadJSONInterface {
 
-	Intent intent;
+    Intent intent;
     TabsPagerAdapter mTabsAdapter;
 
     ViewPager mViewPager;
@@ -57,8 +57,7 @@ public class MainActivity extends FragmentActivity implements
         mTabsAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
         final ActionBar actionBar = getActionBar();
-        
-        
+
         actionBar.setHomeButtonEnabled(false);
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -117,17 +116,12 @@ public class MainActivity extends FragmentActivity implements
             NavUtils.navigateUpFromSameTask(this);
             return true;
         case R.id.action_add_ti:
-        	dialog = new RegisterDialog(this);
-        	dialog.show();
-         /*   if (isConnected()) {
-                Toast.makeText(getBaseContext(), "Você está conectado",
-                        Toast.LENGTH_LONG).show();
-                new JSONParse().execute();
+            if (isConnected()) {
+                dialog = new RegisterDialog(this);
+                dialog.show();
             } else {
-                Toast.makeText(getBaseContext(), "Você não está conectado!",
-                        Toast.LENGTH_LONG).show();
+                PotmUtils.showNotConnected(this);
             }
-*/
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -153,8 +147,11 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void requestTis() {
-
-        new DownloadJSONTask(this).execute(PotmUtils.getUrl());
+        if (isConnected()) {
+            new DownloadJSONTask(this).execute(PotmUtils.getServerURL());
+        } else {
+            PotmUtils.showNotConnected(this);
+        }
     }
 
     @Override
@@ -164,7 +161,8 @@ public class MainActivity extends FragmentActivity implements
         for (int i = 0; i < json.length(); i++) {
             Ti ti;
             try {
-                ti = new Ti(json.getJSONObject(i).getString("title"),String.valueOf(i),"");
+                ti = new Ti(json.getJSONObject(i).getString("title"),
+                        String.valueOf(i), "");
                 list.add(ti);
             } catch (JSONException e) {
                 MyLog.error("Error when add Ti", e);

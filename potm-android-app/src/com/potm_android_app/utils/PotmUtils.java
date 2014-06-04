@@ -7,9 +7,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.Gravity;
 import android.widget.Toast;
+
+import com.potm_android_app.R;
 
 public class PotmUtils {
 
@@ -74,8 +79,28 @@ public class PotmUtils {
         return null;
     }
 
-    public static String getUrl() {
-        return URL;
+    public static boolean isConnected(Activity act) {
+        final ConnectivityManager connMgr = (ConnectivityManager) act
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if ((networkInfo != null) && networkInfo.isConnected()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static void showNotConnected(Context context) {
+        Toast.makeText(context,
+                context.getString(R.string.connection_unavailable),
+                Toast.LENGTH_LONG).show();
+    }
+
+    public static void showCantWithoutConnection(Context context) {
+        Toast.makeText(context,
+                context.getString(R.string.cant_without_connection),
+                Toast.LENGTH_SHORT).show();
     }
 
 }
