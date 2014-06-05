@@ -2,15 +2,24 @@ package com.potm_android_app;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
 import org.joda.time.Minutes;
+import org.json.JSONObject;
+
+import com.potm_android_app.utils.PotmUtils;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -80,12 +89,57 @@ public class RegisterDialog extends Dialog {
 				}else if (mActicity.length() == 0) { // nao digitou o nome da atividade
 					Toast.makeText(getContext(), "Indique a Atividade",Toast.LENGTH_LONG).show();
 				}else{
+					new JSONParse().execute();
 					dismiss();
 				}
             	
             }
         });
 	}
+	
+    private class JSONParse extends AsyncTask<String, String, JSONObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+
+            JSONParser jParser = new JSONParser();
+
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+
+            nameValuePairs.add(new BasicNameValuePair("username", "developer"));
+	        nameValuePairs.add(new BasicNameValuePair("date_end", horasFim.toString()));
+            nameValuePairs.add(new BasicNameValuePair("date_begin",horasFim.toString()));
+            nameValuePairs.add(new BasicNameValuePair("category", "Teste"));
+            nameValuePairs.add(new BasicNameValuePair("description", "Testando envio"));
+            nameValuePairs.add(new BasicNameValuePair("title", mActicity));
+
+            JSONObject json = jParser.postData(PotmUtils.getServerURL(),
+                    nameValuePairs);
+
+            if (json == null) {
+                Log.d("POMT", "error!!!!");
+            }
+
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            Toast.makeText(getContext(), "enviou os dados",
+                    Toast.LENGTH_LONG).show();
+
+        }
+
+    }
+
+	
+	
 	
 }
 

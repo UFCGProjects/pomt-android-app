@@ -187,50 +187,7 @@ public class MainActivity extends FragmentActivity implements
             }
         }
     }
-
-    private class JSONParse extends AsyncTask<String, String, JSONObject> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-
-            JSONParser jParser = new JSONParser();
-
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-
-            nameValuePairs.add(new BasicNameValuePair("username", "developer"));
-            nameValuePairs.add(new BasicNameValuePair("date_end", String
-                    .valueOf(new GregorianCalendar().getTimeInMillis())));
-            nameValuePairs.add(new BasicNameValuePair("date_begin", String
-                    .valueOf(new GregorianCalendar().getTimeInMillis())));
-            nameValuePairs.add(new BasicNameValuePair("category", "nenhuma"));
-            nameValuePairs.add(new BasicNameValuePair("description", "nada"));
-            nameValuePairs.add(new BasicNameValuePair("title", "les"));
-
-            JSONObject json = jParser.postData(PotmUtils.getServerURL(),
-                    nameValuePairs);
-
-            if (json == null) {
-                Log.d("POMT", "error!!!!");
-            }
-
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            Toast.makeText(getBaseContext(), "enviou os dados",
-                    Toast.LENGTH_LONG).show();
-
-        }
-
-    }
-
+    
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
