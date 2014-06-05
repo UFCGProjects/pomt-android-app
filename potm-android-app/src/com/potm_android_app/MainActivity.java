@@ -47,8 +47,6 @@ public class MainActivity extends FragmentActivity implements
     ViewPager mViewPager;
     RegisterDialog dialog;
 
-    private String[] mTabsNames = { "Semana 3", "Semana 2", "Semana 1" };
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +68,11 @@ public class MainActivity extends FragmentActivity implements
         }
 
         // Adding Tabs
+        int week = new DateTime().getWeekOfWeekyear();
 
-        for (String tab_name : mTabsNames) {
+        for (int i = 0; i < 3; i++) {
             getActionBar().addTab(
-                    getActionBar().newTab().setText(tab_name)
+                    getActionBar().newTab().setText("Semana " + (week - i))
                             .setTabListener(this));
         }
 
@@ -161,8 +160,7 @@ public class MainActivity extends FragmentActivity implements
         for (int i = 0; i < 3; i++) {
             try {
                 refreshFragment(mTabsAdapter.getRegisteredFragment(i),
-                        json.getJSONObject(String.valueOf(week - i))
-                                .getJSONObject("tis"));
+                        json.getJSONObject(String.valueOf(week - i)));
             } catch (JSONException e) {
                 MyLog.error("Error when parsing json on callback", e);
             }
@@ -173,32 +171,35 @@ public class MainActivity extends FragmentActivity implements
     private void refreshFragment(Fragment fragment, JSONObject json) {
         ArrayList<Ti> list = new ArrayList<Ti>();
         Ti ti;
+        try {
+            JSONObject jsonTis = json.getJSONObject("tis");
 
-        Iterator<?> keys = json.keys();
+            Iterator<?> keys = jsonTis.keys();
 
-        while (keys.hasNext()) {
-            String key = (String) keys.next();
-            try {
-                if (json.get(key) instanceof JSONObject) {
-                    MyLog.debug(json.getJSONObject(key).toString());
+            while (keys.hasNext()) {
+                String key = (String) keys.next();
 
+                if (jsonTis.get(key) instanceof JSONObject) {
                     String title = key;
-                    String proportion = (json.getJSONObject(key).getDouble(
+                    String proportion = (jsonTis.getJSONObject(key).getDouble(
                             "proporcion") * 100)
                             + "%";
 
                     ti = new Ti(title, proportion);
                     list.add(ti);
                 }
-            } catch (JSONException e) {
-                MyLog.error("Error when add Ti", e);
-            }
-        }
 
-        if (mTabsAdapter != null) {
-            if (fragment instanceof WeekFragment) {
-                ((WeekFragment) fragment).refreshUI(list);
             }
+
+            if (mTabsAdapter != null) {
+                if (fragment instanceof WeekFragment) {
+                    ((WeekFragment) fragment).refreshUI(list,
+                            json.getDouble("total"));
+                }
+            }
+
+        } catch (JSONException e) {
+            MyLog.error("Error when add Ti", e);
         }
 
     }

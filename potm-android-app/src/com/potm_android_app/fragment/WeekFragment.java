@@ -9,15 +9,17 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.potm_android_app.R;
 import com.potm_android_app.adapter.TiAdapter;
 import com.potm_android_app.model.Ti;
+import com.potm_android_app.utils.MyLog;
 
 /**
  * The Class TableFragment.
@@ -33,6 +35,10 @@ public class WeekFragment extends Fragment {
      * The m players adapter.
      */
     private TiAdapter mTiAdapter;
+
+    private LinearLayout mLayoutTitle;
+
+    private TextView mTotalHours;
 
     /* (non-Javadoc)
      * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -56,6 +62,12 @@ public class WeekFragment extends Fragment {
                     .findViewById(android.R.id.empty));
         }
 
+        mLayoutTitle = (LinearLayout) rootView.findViewById(R.id.layoutTitle);
+
+        //                    .setVisibility(View.VISIBLE);
+        mTotalHours = (TextView) rootView.findViewById(R.id.textViewTotal);
+        //                    .setText(String.valueOf(total));
+
         return rootView;
     }
 
@@ -65,21 +77,27 @@ public class WeekFragment extends Fragment {
      * @param players the players
      */
     public void updateTi(List<Ti> tis) {
-
-        //        Log.d("POMT_DEBUG", "test " + mListTi.size());
-
         if ((mListTi != null) && (mTiAdapter != null)) {
             mListTi.clear();
 
             mListTi.addAll(tis);
 
-            Log.d("POMT_DEBUG", "update: " + mListTi.size());
-
             mTiAdapter.notifyDataSetChanged();
         }
     }
 
-    public void refreshUI(List<Ti> tis) {
+    public void refreshUI(List<Ti> tis, double total) {
+        MyLog.debug("Updating UI...");
+
         updateTi(tis);
+
+        if ((mLayoutTitle != null) && (mTotalHours != null)) {
+            if (total > 0) {
+                mLayoutTitle.setVisibility(View.VISIBLE);
+                mTotalHours.setText(String.valueOf(total));
+            } else {
+                mLayoutTitle.setVisibility(View.GONE);
+            }
+        }
     }
 }
