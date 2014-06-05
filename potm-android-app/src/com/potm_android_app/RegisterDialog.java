@@ -12,6 +12,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
 import org.joda.time.Minutes;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
 import com.potm_android_app.utils.PotmUtils;
@@ -21,6 +23,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -80,23 +83,26 @@ public class RegisterDialog extends Dialog {
             	minutosInicio = timeInicio.getCurrentMinute();
             	horasFim = timeFim.getCurrentHour();
             	minutosFim = timeFim.getCurrentMinute();
-            	DateTime horaInicio = new DateTime().withTime(horasInicio, minutosInicio, 0, 0);
-            	DateTime horaFinal = new DateTime().withTime(horasFim, minutosFim, 0, 0);
-            	if (Hours.hoursBetween(horaInicio, horaFinal).getHours() < 0 || 
-            	   ((Hours.hoursBetween(horaInicio, horaFinal).getHours() == 0) &&
-            	    (Minutes.minutesBetween(horaInicio, horaFinal).getMinutes() <= 0))) {//horairo final < horario inicial
+            	DateTime horarioInicial = new DateTime().withTime(horasInicio, minutosInicio, 0, 0);
+            	DateTime horarioFinal = new DateTime().withTime(horasFim, minutosFim, 0, 0);
+            	
+            	if (horarioInicial.isAfter(horarioFinal) || horarioInicial.equals(horarioFinal)) {//horairo final < horario inicial
                     Toast.makeText(getContext(), "Horário Final Inválido",Toast.LENGTH_LONG).show();
 				}else if (mActicity.length() == 0) { // nao digitou o nome da atividade
 					Toast.makeText(getContext(), "Indique a Atividade",Toast.LENGTH_LONG).show();
 				}else{
+					
+					Log.v("HORA", String.valueOf(horarioFinal));
 					new JSONParse().execute();
 					dismiss();
+
 				}
             	
             }
         });
 	}
 	
+    
     private class JSONParse extends AsyncTask<String, String, JSONObject> {
 
         @Override
@@ -109,14 +115,14 @@ public class RegisterDialog extends Dialog {
         protected JSONObject doInBackground(String... args) {
 
             JSONParser jParser = new JSONParser();
-
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-
+            
+            
             nameValuePairs.add(new BasicNameValuePair("username", "developer"));
-	        nameValuePairs.add(new BasicNameValuePair("date_end", horasFim.toString()));
-            nameValuePairs.add(new BasicNameValuePair("date_begin",horasFim.toString()));
-            nameValuePairs.add(new BasicNameValuePair("category", "Teste"));
-            nameValuePairs.add(new BasicNameValuePair("description", "Testando envio"));
+	        nameValuePairs.add(new BasicNameValuePair("date_end", String.valueOf(new GregorianCalendar(2014, 5, 6, horasInicio, minutosInicio).getTimeInMillis())));
+            nameValuePairs.add(new BasicNameValuePair("date_begin",String.valueOf(new GregorianCalendar(2014, 5, 6, horasFim, minutosFim).getTimeInMillis())));
+            nameValuePairs.add(new BasicNameValuePair("category", "Sem necessidade"));
+            nameValuePairs.add(new BasicNameValuePair("description", "Sem necessidade"));
             nameValuePairs.add(new BasicNameValuePair("title", mActicity));
 
             JSONObject json = jParser.postData(PotmUtils.getServerURL(),
@@ -137,9 +143,7 @@ public class RegisterDialog extends Dialog {
         }
 
     }
+	
 
-	
-	
-	
 }
 

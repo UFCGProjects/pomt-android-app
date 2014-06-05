@@ -203,6 +203,7 @@ public class MainActivity extends FragmentActivity implements
         }
 
     }
+
     
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
