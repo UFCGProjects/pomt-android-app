@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -46,6 +47,7 @@ public class MainActivity extends FragmentActivity implements
 
     ViewPager mViewPager;
     RegisterDialog dialog;
+    ProgressDialog progress;
 	private static ArrayList<Ti> list;
 	private List<String>  titles = new ArrayList<String>();
 ;
@@ -55,7 +57,10 @@ public class MainActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        progress = new ProgressDialog(this);
+        
         list = new ArrayList<Ti>();
+        
         mTabsAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
         final ActionBar actionBar = getActionBar();
@@ -150,6 +155,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void requestTis() {
+    	launchRingDialog();
         if (isConnected()) {
             new DownloadJSONTask(this).execute(PotmUtils.getServerURL());
         } else {
@@ -217,6 +223,23 @@ public class MainActivity extends FragmentActivity implements
 		}
     	
 	}
+    
+    public void launchRingDialog() {
+    	        final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Espere um pouco ...", "Baixando Informações ...", true);
+    	        ringProgressDialog.setCancelable(true);
+    	        new Thread(new Runnable() {
+    	            @Override
+    	            public void run() {
+    	                try {
+    	                    Thread.sleep(10000);
+    	                } catch (Exception e) {
+    	 
+    	                }
+    	                ringProgressDialog.dismiss();
+    	            }
+    	        }).start();
+    	    }
+
     
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);

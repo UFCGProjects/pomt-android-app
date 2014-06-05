@@ -3,7 +3,7 @@
 
     <string name="app_name">potm-android-app</string>
     <string name="action_add_ti">Add Ti</string>
-    <string name="activity">Activity</string>
+    <string name="activity">Atividade</string>
     <string name="cant_without_connection">Can\'t without connection.</string>
     <string name="connection_unavailable">Connection Unavailable.</string>
     <string name="hora_inicio">Hora Inicio</string>

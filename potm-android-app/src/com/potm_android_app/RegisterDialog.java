@@ -101,7 +101,6 @@ public class RegisterDialog extends Dialog {
 					Toast.makeText(getContext(), "Indique a Atividade",Toast.LENGTH_LONG).show();
 				}else{
 					
-					Log.v("HORA", String.valueOf(horarioFinal));
 					new JSONParse().execute();
 					dismiss();
 
