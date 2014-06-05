@@ -46,12 +46,16 @@ public class MainActivity extends FragmentActivity implements
 
     ViewPager mViewPager;
     RegisterDialog dialog;
+	private static ArrayList<Ti> list;
+	private List<String>  titles = new ArrayList<String>();
+;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        
+        list = new ArrayList<Ti>();
         mTabsAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
         final ActionBar actionBar = getActionBar();
@@ -116,7 +120,7 @@ public class MainActivity extends FragmentActivity implements
             return true;
         case R.id.action_add_ti:
             if (isConnected()) {
-                dialog = new RegisterDialog(this);
+                dialog = new RegisterDialog(this,titles);
                 dialog.show();
             } else {
                 PotmUtils.showNotConnected(this);
@@ -161,6 +165,7 @@ public class MainActivity extends FragmentActivity implements
             try {
                 refreshFragment(mTabsAdapter.getRegisteredFragment(i),
                         json.getJSONObject(String.valueOf(week - i)));
+                allTitles();
             } catch (JSONException e) {
                 MyLog.error("Error when parsing json on callback", e);
             }
@@ -169,7 +174,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void refreshFragment(Fragment fragment, JSONObject json) {
-        ArrayList<Ti> list = new ArrayList<Ti>();
+        
         Ti ti;
         try {
             JSONObject jsonTis = json.getJSONObject("tis");
@@ -204,6 +209,14 @@ public class MainActivity extends FragmentActivity implements
 
     }
 
+    public void allTitles() {
+    	
+    	for (Ti currentTi : list) {
+    		if (!titles.contains(currentTi.getTitle())) 
+			titles.add(currentTi.getTitle());
+		}
+    	
+	}
     
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);

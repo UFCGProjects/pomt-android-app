@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TimePicker;
@@ -43,10 +44,16 @@ public class RegisterDialog extends Dialog {
 	Button buttonOk,buttonCancel;
 	protected Integer horasFim;
 	protected Integer minutosFim;
+	private List<String> titles;
 	
 	
 	public RegisterDialog(Context context) {
 		super(context);
+	}
+
+	public RegisterDialog(Context mainActivity, List<String> allTitles) {
+		super(mainActivity);
+		titles = allTitles;
 	}
 
 	@Override
@@ -56,6 +63,8 @@ public class RegisterDialog extends Dialog {
 		buttonOk = (Button) findViewById(R.id.buttonOK);
 		buttonCancel = (Button) findViewById(R.id.buttonCancel);
 		autoCompletetextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTitle);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_dropdown_item_1line,titles);
+        autoCompletetextView.setAdapter(adapter);
 		timeInicio = (TimePicker) findViewById(R.id.timePickerInicio);
 		timeInicio.setIs24HourView(true);
 		timeFim = (TimePicker) findViewById(R.id.timePickerFinal);
