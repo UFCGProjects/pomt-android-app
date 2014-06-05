@@ -2,13 +2,12 @@ package com.potm_android_app;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.joda.time.Instant;
-import org.joda.time.Interval;
-import org.json.JSONArray;
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,8 +47,6 @@ public class MainActivity extends FragmentActivity implements
     ViewPager mViewPager;
     RegisterDialog dialog;
 
-    private String[] mTabsNames = { "Semana 3", "Semana 2", "Semana 1" };
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +68,11 @@ public class MainActivity extends FragmentActivity implements
         }
 
         // Adding Tabs
+        int week = new DateTime().getWeekOfWeekyear();
 
-        for (String tab_name : mTabsNames) {
+        for (int i = 0; i < 3; i++) {
             getActionBar().addTab(
-                    getActionBar().newTab().setText(tab_name)
+                    getActionBar().newTab().setText("Semana " + (week - i))
                             .setTabListener(this));
         }
 
@@ -156,36 +154,54 @@ public class MainActivity extends FragmentActivity implements
     }
 
     @Override
-    public void callback(JSONArray json) {
-        ArrayList<Ti> list = new ArrayList<Ti>();
+    public void callback(JSONObject json) {
+        int week = new DateTime().getWeekOfWeekyear();
 
-        for (int i = 0; i < json.length(); i++) {
-            Ti ti;
+        for (int i = 0; i < 3; i++) {
             try {
-                String title = json.getJSONObject(i).getString("title");
-                String category = json.getJSONObject(i).getString("category");
-                String description = json.getJSONObject(i).getString(
-                        "description");
-                Instant start = new Instant(json.getJSONObject(i).getString(
-                        "date_begin"));
-                Instant end = new Instant(json.getJSONObject(i).getString(
-                        "date_end"));
-                Interval interval = new Interval(start, end);
-
-                ti = new Ti(title, interval, category, description);
-                list.add(ti);
+                refreshFragment(mTabsAdapter.getRegisteredFragment(i),
+                        json.getJSONObject(String.valueOf(week - i)));
             } catch (JSONException e) {
-                MyLog.error("Error when add Ti", e);
+                MyLog.error("Error when parsing json on callback", e);
             }
         }
 
-        if (mTabsAdapter != null) {
-            Fragment fragment = mTabsAdapter.getRegisteredFragment(0);
+    }
 
-            if (fragment instanceof WeekFragment) {
-                ((WeekFragment) fragment).refreshUI(list);
+    private void refreshFragment(Fragment fragment, JSONObject json) {
+        ArrayList<Ti> list = new ArrayList<Ti>();
+        Ti ti;
+        try {
+            JSONObject jsonTis = json.getJSONObject("tis");
+
+            Iterator<?> keys = jsonTis.keys();
+
+            while (keys.hasNext()) {
+                String key = (String) keys.next();
+
+                if (jsonTis.get(key) instanceof JSONObject) {
+                    String title = key;
+                    String proportion = (jsonTis.getJSONObject(key).getDouble(
+                            "proporcion") * 100)
+                            + "%";
+
+                    ti = new Ti(title, proportion);
+                    list.add(ti);
+                }
+
             }
+
+            if (mTabsAdapter != null) {
+                if (fragment instanceof WeekFragment) {
+                    ((WeekFragment) fragment).refreshUI(list,
+                            json.getDouble("total"));
+                }
+            }
+
+        } catch (JSONException e) {
+            MyLog.error("Error when add Ti", e);
         }
+
     }
     
     public boolean isConnected() {

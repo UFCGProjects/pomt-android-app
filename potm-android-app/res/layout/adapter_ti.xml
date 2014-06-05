@@ -31,7 +31,8 @@
         android:id="@+id/layoutMiddle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutTop" >
+        android:layout_below="@+id/layoutTop"
+        android:visibility="invisible" >
 
         <TextView
             android:id="@+id/textViewHoursBegin"
