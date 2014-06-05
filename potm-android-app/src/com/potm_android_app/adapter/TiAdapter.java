@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.potm_android_app.R;
 import com.potm_android_app.model.Ti;
+import com.potm_android_app.utils.PotmUtils;
 
 public class TiAdapter extends ArrayAdapter<Ti> {
 
@@ -83,7 +84,8 @@ public class TiAdapter extends ArrayAdapter<Ti> {
         //        holder.txtHoursEnd.setText(ti.getHoursEnd());
         //        holder.txtCategory.setText(ti.getCategory());
         //        holder.txtDescription.setText(ti.getDescription());
-        holder.txtProportion.setText(ti.getProportion());
+        holder.txtProportion.setText(PotmUtils.formatDouble(ti.getProportion())
+                + "%");
 
         return row;
 

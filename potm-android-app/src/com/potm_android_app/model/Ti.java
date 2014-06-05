@@ -1,16 +1,18 @@
 package com.potm_android_app.model;
 
+import java.util.Comparator;
+
 import org.joda.time.Interval;
 
 import com.potm_android_app.utils.PotmUtils;
 
-public class Ti {
+public class Ti implements Comparable<Ti> {
 
     private String mTitle;
     private Interval mInterval;
     private String mDescription;
     private String mCategory;
-    private String mProportion;
+    private double mProportion;
 
     public Ti(String title, Interval interval, String category,
             String description) {
@@ -18,10 +20,10 @@ public class Ti {
         mInterval = interval;
         mDescription = "";
         mCategory = "";
-        mProportion = "";
+        mProportion = 0;
     }
 
-    public Ti(String title, String proportion) {
+    public Ti(String title, double proportion) {
         mTitle = title;
         mProportion = proportion;
     }
@@ -62,12 +64,24 @@ public class Ti {
         return mInterval.getStart().toString(PotmUtils.getDateTimeFormat());
     }
 
-    public String getProportion() {
+    public double getProportion() {
         return mProportion;
     }
 
     public String getHoursEnd() {
         return mInterval.getEnd().toString(PotmUtils.getDateTimeFormat());
+    }
+
+    @Override
+    public int compareTo(Ti another) {
+        if (getProportion() < another.getProportion()) {
+            return 1;
+        }
+        if (getProportion() > another.getProportion()) {
+            return -1;
+        }
+
+        return 0;
     }
 
 }
