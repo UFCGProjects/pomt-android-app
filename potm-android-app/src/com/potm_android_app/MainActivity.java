@@ -174,6 +174,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void refreshFragment(Fragment fragment, JSONObject json) {
+        list.clear();
 
         Ti ti;
         try {
