@@ -1,12 +1,9 @@
 package com.potm_android_app;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,18 +15,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.potm_android_app.adapter.TabsPagerAdapter;
 import com.potm_android_app.asynctask.DownloadJSONTask;
@@ -47,20 +41,20 @@ public class MainActivity extends FragmentActivity implements
 
     ViewPager mViewPager;
     RegisterDialog dialog;
+
     ProgressDialog progress;
-	private static ArrayList<Ti> list;
-	private List<String>  titles = new ArrayList<String>();
-;
+    private static ArrayList<Ti> list;
+    private List<String> titles = new ArrayList<String>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+
         progress = new ProgressDialog(this);
-        
+
         list = new ArrayList<Ti>();
-        
+
         mTabsAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
         final ActionBar actionBar = getActionBar();
@@ -125,7 +119,7 @@ public class MainActivity extends FragmentActivity implements
             return true;
         case R.id.action_add_ti:
             if (isConnected()) {
-                dialog = new RegisterDialog(this,titles);
+                dialog = new RegisterDialog(this, titles);
                 dialog.show();
             } else {
                 PotmUtils.showNotConnected(this);
@@ -155,7 +149,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void requestTis() {
-    	launchRingDialog();
+        launchRingDialog();
         if (isConnected()) {
             new DownloadJSONTask(this).execute(PotmUtils.getServerURL());
         } else {
@@ -180,7 +174,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void refreshFragment(Fragment fragment, JSONObject json) {
-        
+
         Ti ti;
         try {
             JSONObject jsonTis = json.getJSONObject("tis");
@@ -192,9 +186,8 @@ public class MainActivity extends FragmentActivity implements
 
                 if (jsonTis.get(key) instanceof JSONObject) {
                     String title = key;
-                    String proportion = (jsonTis.getJSONObject(key).getDouble(
-                            "proporcion") * 100)
-                            + "%";
+                    double proportion = jsonTis.getJSONObject(key).getDouble(
+                            "proporcion") * 100;
 
                     ti = new Ti(title, proportion);
                     list.add(ti);
@@ -216,31 +209,33 @@ public class MainActivity extends FragmentActivity implements
     }
 
     public void allTitles() {
-    	
-    	for (Ti currentTi : list) {
-    		if (!titles.contains(currentTi.getTitle())) 
-			titles.add(currentTi.getTitle());
-		}
-    	
-	}
-    
-    public void launchRingDialog() {
-    	        final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Espere um pouco ...", "Baixando Informações ...", true);
-    	        ringProgressDialog.setCancelable(true);
-    	        new Thread(new Runnable() {
-    	            @Override
-    	            public void run() {
-    	                try {
-    	                    Thread.sleep(10000);
-    	                } catch (Exception e) {
-    	 
-    	                }
-    	                ringProgressDialog.dismiss();
-    	            }
-    	        }).start();
-    	    }
 
-    
+        for (Ti currentTi : list) {
+            if (!titles.contains(currentTi.getTitle())) {
+                titles.add(currentTi.getTitle());
+            }
+        }
+
+    }
+
+    public void launchRingDialog() {
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(
+                MainActivity.this, "Wait a second...", "Downloading Tis...",
+                true);
+        ringProgressDialog.setCancelable(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10000);
+                } catch (Exception e) {
+
+                }
+                ringProgressDialog.dismiss();
+            }
+        }).start();
+    }
+
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();

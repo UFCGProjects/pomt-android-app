@@ -5,6 +5,7 @@
 package com.potm_android_app.fragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.potm_android_app.R;
 import com.potm_android_app.adapter.TiAdapter;
 import com.potm_android_app.model.Ti;
 import com.potm_android_app.utils.MyLog;
+import com.potm_android_app.utils.PotmUtils;
 
 /**
  * The Class TableFragment.
@@ -82,6 +84,9 @@ public class WeekFragment extends Fragment {
 
             mListTi.addAll(tis);
 
+            Collections.sort(mListTi);
+            //            Collections.reverse(mListTi);
+
             mTiAdapter.notifyDataSetChanged();
         }
     }
@@ -94,7 +99,7 @@ public class WeekFragment extends Fragment {
         if ((mLayoutTitle != null) && (mTotalHours != null)) {
             if (total > 0) {
                 mLayoutTitle.setVisibility(View.VISIBLE);
-                mTotalHours.setText(String.valueOf(total));
+                mTotalHours.setText(PotmUtils.formatDouble(total) + " hours");
             } else {
                 mLayoutTitle.setVisibility(View.GONE);
             }
