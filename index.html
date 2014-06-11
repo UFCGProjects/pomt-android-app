@@ -1,246 +1,92 @@
 <!doctype html>
-<html class="no-js">
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-	<head>
-		<meta charset="utf-8"/>
-		<title>Track your Time</title>
-		 
-		<!--[if lt IE 9]>
-			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-		<link rel="stylesheet" media="all" href="css/style.css"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<!-- Adding "maximum-scale=1" fixes the Mobile Safari auto-zoom bug: http://filamentgroup.com/examples/iosScaleBug/ -->		
-				
-		<!-- JS -->
-		<script src="js/jquery-1.7.1.min.js"></script>
-		<script src="js/custom.js"></script>
-		<script src="js/tabs.js"></script>
-		<script src="js/css3-mediaqueries.js"></script>
-		<script src="js/jquery.columnizer.min.js"></script>
-		
-		<!-- Isotope -->
-		<script src="js/jquery.isotope.min.js"></script>
-		
-		<!-- Lof slider -->
-		<script src="js/jquery.easing.js"></script>
-		<script src="js/lof-slider.js"></script>
-		<link rel="stylesheet" href="css/lof-slider.css" media="all"  /> 
-		<!-- ENDS slider -->
-		
-		<!-- Tweet -->
-		<link rel="stylesheet" href="css/jquery.tweet.css" media="all"  /> 
-		<script src="js/tweet/jquery.tweet.js" ></script> 
-		<!-- ENDS Tweet -->
-		
-		<!-- superfish -->
-		<link rel="stylesheet" media="screen" href="css/superfish.css" /> 
-		<script  src="js/superfish-1.4.8/js/hoverIntent.js"></script>
-		<script  src="js/superfish-1.4.8/js/superfish.js"></script>
-		<script  src="js/superfish-1.4.8/js/supersubs.js"></script>
-		<!-- ENDS superfish -->
-		
-		<!-- prettyPhoto -->
-		<script  src="js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
-		<link rel="stylesheet" href="js/prettyPhoto/css/prettyPhoto.css"  media="screen" />
-		<!-- ENDS prettyPhoto -->
-		
-		<!-- poshytip -->
-		<link rel="stylesheet" href="js/poshytip-1.1/src/tip-twitter/tip-twitter.css"  />
-		<link rel="stylesheet" href="js/poshytip-1.1/src/tip-yellowsimple/tip-yellowsimple.css"  />
-		<script  src="js/poshytip-1.1/src/jquery.poshytip.min.js"></script>
-		<!-- ENDS poshytip -->
-		
-		<!-- JCarousel -->
-		<script type="text/javascript" src="js/jquery.jcarousel.min.js"></script>
-		<link rel="stylesheet" media="screen" href="css/carousel.css" /> 
-		<!-- ENDS JCarousel -->
-		
-		<!-- GOOGLE FONTS -->
-		<link href='http://fonts.googleapis.com/css?family=Voltaire' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
 
-		<!-- modernizr -->
-		<script src="js/modernizr.js"></script>
-		
-		<!-- SKIN -->
-		<link rel="stylesheet" media="all" href="css/skin.css"/>
-		
-		<!-- Less framework -->
-		<link rel="stylesheet" media="all" href="css/lessframework.css"/>
-		
-		<!-- flexslider -->
-		<link rel="stylesheet" href="css/flexslider.css" >
-		<script src="js/jquery.flexslider.js"></script>
+  <title>Teste</title>
+  <meta name="description" content="teste">
 
-	</head>
-	
-	<body class="home">
-	
-		<!-- HEADER -->
-		<header>
-			<div class="wrapper cf">
-				
-				<div id="logo">
-					<a href="index.html"><img  src="img/logo.png" alt="Simpler"></a>
-				</div>
-				
-				<!-- nav -->
-				<ul id="nav" class="sf-menu">
-					<li class="current-menu-item"><a href="index.html">HOME</a></li>
-					<li><a href="blog.html">BLOG</a></li>
-					<li><a href="page.html">ABOUT</a>
-						<ul>
-							<li><a href="page-elements.html">Elements</a></li>
-							<li><a href="page-icons.html">Icons</a></li>
-							<li><a href="page-typography.html">Typography</a></li>
-						</ul>
-					</li>
-					<li><a href="portfolio.html">WORK</a></li>
-					<li><a href="contact.html">CONTACT</a></li>
-				</ul>
-				<div id="combo-holder"></div>
-				<!-- ends nav -->
-				
-				
-				<!-- SLIDER -->				
-				<div id="home-slider" class="lof-slidecontent">
-					
-					<div class="preload"><div></div></div>
-					
-					<!-- slider content --> 
-					<div class="main-slider-content" >
-					<ul class="sliders-wrap-inner">
-					    <li>
-					          <img src="img/dummies/slides/01.jpg" title="" alt="alt" />           
-					          <div class="slider-description">
-					            <h4>Track Your Time</h4>
-					            <p>No mundo em que vivemos, a necessidade de controle do tempo que temos e em como investimos este tempo tem sido fundamental para todos. 
-					            </p>
-					         </div>
-					    </li>
-					    
-					    <li>
-					          <img src="img/dummies/slides/02.jpg" title="" alt="alt" />           
-					          <div class="slider-description">
-					            <h4>Track Your Time</h4>
-					            <p>O Track Your Time busca lhe ajudar a utilizar seu tempo da melhor forma possível, ele irá lhe mostrar como você está investindo seu tempo.
-					          
-					            </p>
-					         </div>
-					    </li>
-					    
-					    <li>
-					          <img src="img/dummies/slides/03.jpg" title="" alt="alt" />           
-					          <div class="slider-description">
-					            <h4>Track Your Time</h4>
-					            <p>A partir daí você pode tomar as decisões certas de como usar o tempo. Afinal, tempo é dinheiro!
-					           
-					            </p>
-					         </div>
-					    </li>
-					    <li>
-					    </li>
-					  </ul>  	
-					</div>
-					<!-- ENDS slider content --> 
-				           
-					<!-- slider nav -->
-					<div class="navigator-content">
-					  <div class="navigator-wrapper">
-					        <ul class="navigator-wrap-inner">
-					           <li><img src="img/dummies/slides/01_thumb.jpg" alt="alt" /></li>
-					           <li><img src="img/dummies/slides/02_thumb.jpg" alt="alt" /></li>
-					           <li><img src="img/dummies/slides/03_thumb.jpg" alt="alt" /></li>
-					           <li><img src="img/dummies/slides/04_thumb.jpg" alt="alt" /></li>
-					           <li><img src="img/dummies/slides/05_thumb.jpg" alt="alt" /></li>
-					           <li><img src="img/dummies/slides/06_thumb.jpg" alt="alt" /></li>
-					           <li><img src="img/dummies/slides/07_thumb.jpg" alt="alt" /></li>
-					        </ul>
-					  </div>
-					  <div class="button-next">Next</div>
-					  <div  class="button-previous">Previous</div>
-					  <!-- REMOVED TILL FIXED <div class="button-control"><span>STOP</span></div> -->
-					</div> 
-					<!-- slider nav -->
-     
-				 </div> 
-				<!-- ENDS SLIDER -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-			</div>
-		</header>
-		<!-- ENDS HEADER -->
-		
-		<!-- MAIN -->
-		<div id="main">
-			<div class="wrapper cf">
-			
-			<!-- featured -->
-			<div class="home-featured">
-			
-				<ul id="filter-buttons">
-					<li><a href="#" data-filter="*" class="selected">show all</a></li>
-				</ul>
-				
-				<!-- Filter container -->
-				<div id="filter-container" class="cf">
-					<figure class="web">
-						<a href="project.html" class="thumb"><img src="img/dummies/featured/01.jpg" alt="alt" /></a>
-						<figcaption>
-							<a href="project.html"><h3 class="heading">Equipe</h3></a>
-							Track Your Time foi desenvolvida por Dirceu de Medeiros, Felipe Eduardo, Matheus Batista, Matheus Sampaio, Rafael Ribeiro </figcaption>
-					</figure>
-					
-					<figure class="print">
-						<a href="project.html" class="thumb"><img src="img/dummies/featured/02.jpg" alt="alt" /></a>
-						<figcaption>
-							<a href="project.html"><h3 class="heading">Reveja seu tempo</h3></a>
-							Com o Track Your Time você poderá rever melhor em que investiu seu tempo, e assim se planejar melhor. </figcaption>
-					</figure>
-					
-					
-					<figure class="design">
-						<a href="project.html" class="thumb"><img src="img/dummies/featured/03.jpg" alt="alt" /></a>
-						<figcaption>
-							<a href="project.html" ><h3 class="heading">Ganhe tempo</h3></a>
-							Com o histórico e o modo de comparação semanal que o Track Your Time tem, lhe permitirá ver da melhor forma como alocar suas atividades e você terá maior controle sobre as atividades que exigem maior tempo! </figcaption>
-					</figure>
-				</div><!-- ENDS Filter container -->
-				
-			</div>
-			<!-- ENDS featured -->
-			
-			</div><!-- ENDS WRAPPER -->
-		</div>
-		<!-- ENDS MAIN -->
-		
-		<!-- FOOTER -->
-		<footer>
-			<div class="wrapper cf">
-			
-				<!-- widgets -->
-				<ul  class="widget-cols cf">
-					<li class="first-col">
-					
-						<div class="widget-block">
-							<h4>Desenvolvedores</h4>
-							<u1>
-								<li class="cat-item"><a href="#" >Dirceu de Medeiros</a></li>
-								<li class="cat-item"><a href="#" >Felipe Eduardo</a></li>
-								<li class="cat-item"><a href="#" >Matheus Batista</a></li>
-								<li class="cat-item"><a href="#" >Matheus Sampaio</a></li>
-								<li class="cat-item"><a href="#" >Rafael Ribeiro</a></li>
-							</u1>
-						</div>
-					</li>
+</head>
 
-				<!-- ENDS widgets -->	
-				
-			</div>
-		</footer>
-		<!-- ENDS FOOTER -->
-		
-	</body>
-	
-	
-	
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Teste</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">teste</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/matheusbs/teste/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/matheusbs/teste/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/matheusbs/teste" class="code">View Teste on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h3>
+<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+
+<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+
+<pre><code>$ cd your_repo_root/repo_name
+$ git fetch origin
+$ git checkout gh-pages
+</code></pre>
+
+<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+
+<h3>
+<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+
+<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+
+<h3>
+<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+
+<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+
+<h3>
+<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/matheusbs" class="avatar"><img src="https://avatars2.githubusercontent.com/u/7597652?s=60" width="48" height="48"/></a> <a href="https://github.com/matheusbs">matheusbs</a> maintains <a href="https://github.com/matheusbs/teste">Teste</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="http://pages.github.com/">GitHub Pages</a><br/>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/matheusbs/teste/tarball/master" class="tar">tar</a><a href="https://github.com/matheusbs/teste/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
 </html>
