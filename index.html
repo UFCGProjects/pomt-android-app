@@ -1,81 +1,70 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
     <title>Track Your Time by Thiner-LES</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/Thiner-LES/pomt-android-app">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/Thiner-LES/pomt-android-app/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/Thiner-LES/pomt-android-app/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+    <a id="forkme_banner" href="https://github.com/Thiner-LES/pomt-android-app">View on GitHub</a>
+    <div class="shell">
 
-    <div class="wrapper">
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Track Your Time</h1>
+            <h2></h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
 
-      <section>
-        <div id="title">
-          <h1>Track Your Time</h1>
-          <p></p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/Thiner-LES">Thiner-LES</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/Thiner-LES/pomt-android-app/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/Thiner-LES/pomt-android-app/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
 
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
         <p><strong>Aplicação</strong></p>
 
 <p>O Track Your Time vai além de uma simples agenda eletrônica, possuindo uma interface gráfica única o Track Your Time visa facilitar a vida do usuário de forma simples e elegante. Utilizando-se a sua função de agenda o Track Your Time armazena os dados fornecidos pelo usuário durante a semana a fim de disponibilizá-los de forma prática, demonstrando em quais atividades foi investido o seu tempo, tal qual, os seus horários disponíveis, tornando possível uma melhor distribuição e aproveitamento para o seu dia-a-dia.</p>
-
-<p><strong>Plataformas:</strong></p>
-
-<p><em>Android/NodeJS</em></p>
-
-<p>O aplicativo foi desenvolvido para o sistema Android  com o servidor sendo implementado em NodeJS informações sobre essas tecnologias podem ser encontradas respectivamentes aqui(<a href="http://developer.android.com/sdk/index.html">http://developer.android.com/sdk/index.html</a>) e aqui(<a href="http://nodejs.org/">http://nodejs.org/</a>).</p>
-
-<p><strong>Ferramentas pra a qualidade de software</strong></p>
-
-<p><em>FindBugs</em></p>
-
-<p>Umas das ferramentas que utilizamos para o controle de qualidade é o FindBugs. O findBugs é uma ferramenta que utiliza análise estática para encontrar erros em código Java. É um projeto criado pela Universidade de Maryland (The University of Maryland). Informações sobre essa ferramenta podem ser encontradas aqui (<a href="http://findbugs.sourceforge.net/">http://findbugs.sourceforge.net/</a>)</p>
-
-<p><em>SonarQube</em></p>
-
-<p>SonarQube  é uma plataforma de código aberto para inspeção contínua da qualidade do código. A ferramenta suporta algumas das seguintes features:</p>
-
-<p>-Suporta 25 + linguagens: Java, C / C + +, C #, PHP, Flex, Groovy, JavaScript, Python, PL / SQL, COBOL, etc.
--Também pode ser usado no desenvolvimento do Android. 
--Oferece relatórios sobre código duplicado, padrões de codificação, testes unitários, cobertura de código, código complexo, possíveis bugs, comentários e design e arquitetura. 
--O histórico registra métricas e fornece gráficos de evolução ("máquina do tempo") e pontos de vista diferenciados. 
--Fornece análise totalmente automatizado:. Integra com Maven, Ant, Gradle e ferramentas de integração contínua (Atlassian Bamboo, Jenkins, Hudson, etc) 
--Integra-se com o ambiente de desenvolvimento Eclipse 
--Integra-se com ferramentas externas: JIRA, Mantis, LDAP, Fortify, etc.
-Informações sobre a ferramenta pode ser encontrada aqui(<a href="http://www.sonarqube.org/">http://www.sonarqube.org/</a>).</p>
-
-<p><strong>Ferramentas de testes</strong></p>
-
-<p><em>Robotium</em></p>
-
-<p>Robotium  é um framework de teste de código aberto para escrever  casos de testes automáticos para aplicativos Android. Com o apoio de Robotium, os desenvolvedores de casos de teste podem escrever funções ,cenários de teste do sistema e de aceitação. O Robotium pode ser usado tanto para aplicações de testes onde o código fonte está disponível ou aplicações onde somente o arquivo APK está disponível e os detalhes de implementação não são conhecidos.Informações sobre o framework podem se encontradas aqui(<a href="http://code.google.com/p/robotium/">http://code.google.com/p/robotium/</a>).</p>
       </section>
 
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/Thiner-LES">Thiner-LES</a> can be found on <a href="https://github.com/Thiner-LES/pomt-android-app">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
     
   </body>
 </html>
