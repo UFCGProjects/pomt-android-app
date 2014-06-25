@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
+import android.view.ViewGroup;
 
 import com.potm_android_app.fragment.WeekFragment;
 
@@ -42,6 +43,11 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         // get item count - equal to number of tabs
         return 3;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+
     }
 
     public Fragment getRegisteredFragment(int position) {

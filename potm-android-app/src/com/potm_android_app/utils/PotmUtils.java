@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.text.DecimalFormat;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -25,6 +23,8 @@ import com.potm_android_app.R;
 public class PotmUtils {
 
     private static final String URL = "http://pomt.herokuapp.com/api/ti";
+    //    private static final String URL = "http://192.168.1.244:5000/api/ti";
+
     /**
      * The Constant mFormat.
      */
@@ -120,6 +120,23 @@ public class PotmUtils {
      */
     public static DateTimeFormatter getDateTimeFormat() {
         return DateTimeFormat.forPattern(FORMAT_SHORT);
+    }
+
+    public static String formatDouble(double num) {
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
+        boolean hasFloating = false;
+
+        if ((num - (int) num) != 0) {
+            hasFloating = true;
+        }
+
+        if (hasFloating) {
+            return df.format(num);
+        } else {
+            return String.valueOf((int) num);
+        }
+
     }
 
 }

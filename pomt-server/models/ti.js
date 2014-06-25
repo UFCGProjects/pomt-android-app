@@ -7,7 +7,9 @@ var tiSchema = new mongoose.Schema({
   category: { type: String, trim: true, minlength: 1, maxlength: 20},
   date_begin: { type: Date, required: true },
   date_end: { type: Date, required: true },
-  username: { type: String, trim: true, required: true, minlength: 5, maxlength: 20}
+  username: { type: String, trim: true, required: true, minlength: 5, maxlength: 20},
+  hours: {type: Number, required: true},
+  week: {type: Number, required: true}
 
 });
 

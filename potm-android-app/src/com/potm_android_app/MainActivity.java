@@ -1,34 +1,29 @@
 package com.potm_android_app;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.joda.time.Interval;
-import org.json.JSONArray;
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.potm_android_app.adapter.TabsPagerAdapter;
 import com.potm_android_app.asynctask.DownloadJSONTask;
@@ -47,12 +42,18 @@ public class MainActivity extends FragmentActivity implements
     ViewPager mViewPager;
     RegisterDialog dialog;
 
-    private String[] mTabsNames = { "Semana 3", "Semana 2", "Semana 1" };
+    ProgressDialog progress;
+    private static ArrayList<Ti> list;
+    private List<String> titles = new ArrayList<String>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        progress = new ProgressDialog(this);
+
+        list = new ArrayList<Ti>();
 
         mTabsAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
@@ -70,10 +71,11 @@ public class MainActivity extends FragmentActivity implements
         }
 
         // Adding Tabs
+        int week = new DateTime().getWeekOfWeekyear();
 
-        for (String tab_name : mTabsNames) {
+        for (int i = 0; i < 3; i++) {
             getActionBar().addTab(
-                    getActionBar().newTab().setText(tab_name)
+                    getActionBar().newTab().setText("Semana " + (week - i))
                             .setTabListener(this));
         }
 
@@ -117,7 +119,7 @@ public class MainActivity extends FragmentActivity implements
             return true;
         case R.id.action_add_ti:
             if (isConnected()) {
-                dialog = new RegisterDialog(this);
+                dialog = new RegisterDialog(this, titles);
                 dialog.show();
             } else {
                 PotmUtils.showNotConnected(this);
@@ -147,6 +149,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void requestTis() {
+        launchRingDialog();
         if (isConnected()) {
             new DownloadJSONTask(this).execute(PotmUtils.getServerURL());
         } else {
@@ -155,80 +158,83 @@ public class MainActivity extends FragmentActivity implements
     }
 
     @Override
-    public void callback(JSONArray json) {
-        ArrayList<Ti> list = new ArrayList<Ti>();
+    public void callback(JSONObject json) {
+        int week = new DateTime().getWeekOfWeekyear();
 
-        for (int i = 0; i < json.length(); i++) {
-            Ti ti;
+        for (int i = 0; i < 3; i++) {
             try {
-                String title = json.getJSONObject(i).getString("title");
-                String category = json.getJSONObject(i).getString("category");
-                String description = json.getJSONObject(i).getString(
-                        "description");
-                long start = Long.parseLong(json.getJSONObject(i).getString(
-                        "date_begin"));
-                long end = Long.parseLong(json.getJSONObject(i).getString(
-                        "date_end"));
-
-                Interval interval = new Interval(start, end);
-
-                ti = new Ti(title, interval, category, description);
-                list.add(ti);
+                refreshFragment(mTabsAdapter.getRegisteredFragment(i),
+                        json.getJSONObject(String.valueOf(week - i)));
+                allTitles();
             } catch (JSONException e) {
-                MyLog.error("Error when add Ti", e);
+                MyLog.error("Error when parsing json on callback", e);
             }
         }
 
-        if (mTabsAdapter != null) {
-            Fragment fragment = mTabsAdapter.getRegisteredFragment(0);
-
-            if (fragment instanceof WeekFragment) {
-                ((WeekFragment) fragment).refreshUI(list);
-            }
-        }
     }
 
-    private class JSONParse extends AsyncTask<String, String, JSONObject> {
+    private void refreshFragment(Fragment fragment, JSONObject json) {
+        list.clear();
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        Ti ti;
+        try {
+            JSONObject jsonTis = json.getJSONObject("tis");
 
-        }
+            Iterator<?> keys = jsonTis.keys();
 
-        @Override
-        protected JSONObject doInBackground(String... args) {
+            while (keys.hasNext()) {
+                String key = (String) keys.next();
 
-            JSONParser jParser = new JSONParser();
+                if (jsonTis.get(key) instanceof JSONObject) {
+                    String title = key;
+                    double proportion = jsonTis.getJSONObject(key).getDouble(
+                            "proporcion") * 100;
 
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                    ti = new Ti(title, proportion);
+                    list.add(ti);
+                }
 
-            nameValuePairs.add(new BasicNameValuePair("username", "developer"));
-            nameValuePairs.add(new BasicNameValuePair("date_end", String
-                    .valueOf(new GregorianCalendar().getTimeInMillis())));
-            nameValuePairs.add(new BasicNameValuePair("date_begin", String
-                    .valueOf(new GregorianCalendar().getTimeInMillis())));
-            nameValuePairs.add(new BasicNameValuePair("category", "nenhuma"));
-            nameValuePairs.add(new BasicNameValuePair("description", "nada"));
-            nameValuePairs.add(new BasicNameValuePair("title", "les"));
-
-            JSONObject json = jParser.postData(PotmUtils.getServerURL(),
-                    nameValuePairs);
-
-            if (json == null) {
-                Log.d("POMT", "error!!!!");
             }
 
-            return json;
+            if (mTabsAdapter != null) {
+                if (fragment instanceof WeekFragment) {
+                    ((WeekFragment) fragment).refreshUI(list,
+                            json.getDouble("total"));
+                }
+            }
+
+        } catch (JSONException e) {
+            MyLog.error("Error when add Ti", e);
         }
 
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            Toast.makeText(getBaseContext(), "enviou os dados",
-                    Toast.LENGTH_LONG).show();
+    }
 
+    public void allTitles() {
+
+        for (Ti currentTi : list) {
+            if (!titles.contains(currentTi.getTitle())) {
+                titles.add(currentTi.getTitle());
+            }
         }
 
+    }
+
+    public void launchRingDialog() {
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(
+                MainActivity.this, "Wait a second...", "Downloading Tis...",
+                true);
+        ringProgressDialog.setCancelable(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10000);
+                } catch (Exception e) {
+
+                }
+                ringProgressDialog.dismiss();
+            }
+        }).start();
     }
 
     public boolean isConnected() {

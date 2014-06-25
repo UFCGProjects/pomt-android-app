@@ -3,9 +3,11 @@
 
     <string name="app_name">potm-android-app</string>
     <string name="action_add_ti">Add Ti</string>
-    <string name="activity">Activity</string>
+    <string name="activity">Atividade</string>
     <string name="cant_without_connection">Can\'t without connection.</string>
     <string name="connection_unavailable">Connection Unavailable.</string>
+    <string name="hora_inicio">Hora Inicio</string>
+    <string name="hora_fim">Hora Final</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="cancel">Cancel</string>
@@ -14,6 +16,7 @@
     <string name="label2">Semana Atual</string>
     <string name="label3">Relatório de Atividades</string>
     <string name="no_ti_on_this_week">You have no Ti this week.</string>
+    <string name="total">Total:</string>
     
     
 

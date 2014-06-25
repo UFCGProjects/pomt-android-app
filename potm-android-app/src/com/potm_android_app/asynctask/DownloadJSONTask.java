@@ -2,6 +2,7 @@ package com.potm_android_app.asynctask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -47,10 +48,10 @@ public class DownloadJSONTask extends AsyncTask<String, Void, String> {
     // onPostExecute displays the results of the AsyncTask.
     @Override
     protected void onPostExecute(String result) {
-        JSONArray mainObject;
+        JSONObject mainObject;
 
         try {
-            mainObject = new JSONArray(result);
+            mainObject = new JSONObject(result);
 
             ((DownloadJSONInterface) context).callback(mainObject);
 
@@ -62,6 +63,6 @@ public class DownloadJSONTask extends AsyncTask<String, Void, String> {
     }
 
     public interface DownloadJSONInterface {
-        public void callback(JSONArray json);
+        public void callback(JSONObject json);
     }
 }
