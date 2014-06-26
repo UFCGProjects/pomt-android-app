@@ -70,6 +70,7 @@ router.post('/ti', function(req, res) {
   ti.week = ti.date_begin.getWeek();
   ti.hours = Math.abs(ti.date_begin - ti.date_end) / 36e5;
   ti.username = req.body.username;
+  ti.priority = req.body.priority;
 
   // Saving it to the database.
   ti.save(function (err) {
