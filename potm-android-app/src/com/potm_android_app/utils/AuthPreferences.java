@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class AuthPreferences {
+public final class AuthPreferences {
 
     private static final String KEY_USER = "user";
     private static final String KEY_TOKEN = "token";
@@ -15,13 +15,15 @@ public class AuthPreferences {
     private AuthPreferences(Context context) {
     }
 
-    public static synchronized SharedPreferences getInstance(Activity activity) {
-        if (preferences == null) {
+    public static SharedPreferences getInstance(Activity activity) {
+        synchronized (activity) {
+    	if (preferences == null) {
             preferences = activity
                     .getSharedPreferences("auth", Context.MODE_PRIVATE);
         }
 
         return preferences;
+        }
     }
 
     public static void setUser(Activity activity, String user) {

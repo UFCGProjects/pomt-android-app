@@ -147,20 +147,20 @@ public class RegisterTiActivity extends Activity implements PostJSONInterface {
         DateTime end = null;
         DateTime now = new DateTime();
 
-        if (mTimeBegin != null) {
-            String[] split = mTimeBegin.getText().toString().split(":");
-            begin = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(),
-                    Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        if (mTimeBegin == null) {
+        	return false;
         } else {
-            return false;
+        	String[] split = mTimeBegin.getText().toString().split(":");
+        	begin = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(),
+        			Integer.parseInt(split[0]), Integer.parseInt(split[1]));
         }
 
-        if (mTimeEnd != null) {
-            String[] split = mTimeEnd.getText().toString().split(":");
-            end = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(),
-                    Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        if (mTimeEnd == null) {
+        	return false;
         } else {
-            return false;
+        	String[] split = mTimeEnd.getText().toString().split(":");
+        	end = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(),
+        			Integer.parseInt(split[0]), Integer.parseInt(split[1]));
         }
 
         if (mTitle != null && mTitle.getText().toString().trim().length() <= 3) {
@@ -220,7 +220,7 @@ public class RegisterTiActivity extends Activity implements PostJSONInterface {
         try {
             status = json.getString("status");
 
-            if (status.equalsIgnoreCase("success")) {
+            if ("success".equalsIgnoreCase(status)) {
                 PotmUtils.showToast(this, "Ti adicionado com sucesso.");
                 startActivity(new Intent(RegisterTiActivity.this, MainActivity.class));
             } else {

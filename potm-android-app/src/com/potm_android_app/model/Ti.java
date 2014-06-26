@@ -11,7 +11,7 @@ public class Ti implements Comparable<Ti> {
     private Interval mInterval;
     private String mDescription;
     private String mCategory;
-    private double mProportion;
+    private final double mProportion;
     private int mPriority;
 
     public Ti(String title, Interval interval, String category,
@@ -78,7 +78,12 @@ public class Ti implements Comparable<Ti> {
     
     @Override
     public int compareTo(Ti another) {
-    	return Double.compare(this.getProportion(),another.getProportion());
+    	if ((Double.compare(this.getProportion(),another.getProportion()) == 0)
+    		 == (this.getProportion() == another.getProportion())	) {
+			return 0;
+		}else{
+			return Double.compare(this.getProportion(),another.getProportion());			
+		}
     } 
     
     public int getPriority() {
