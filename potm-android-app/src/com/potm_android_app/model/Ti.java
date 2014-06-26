@@ -76,18 +76,21 @@ public class Ti implements Comparable<Ti> {
         return mInterval.getEnd().toString(PotmUtils.getDateTimeFormat());
     }
 
+    
+    
     @Override
     public int compareTo(Ti another) {
-        if (getProportion() < another.getProportion()) {
-            return 1;
-        }
-        if (getProportion() > another.getProportion()) {
-            return -1;
-        }
-
-        return 0;
-    }
-
+    	
+    	if(this.getProportion() == another.getProportion()){
+    		return 0;    		
+    	}else if (this.getProportion() < another.getProportion()) {
+    		return 1;
+    	}
+    	else{
+    		return -1;
+    	}
+    } 
+    
     public int getPriority() {
         return mPriority;
     }
