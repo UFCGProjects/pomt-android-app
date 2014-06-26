@@ -1,3 +1,4 @@
+
 package com.potm_android_app.model;
 
 import java.util.Comparator;
@@ -13,6 +14,7 @@ public class Ti implements Comparable<Ti> {
     private String mDescription;
     private String mCategory;
     private double mProportion;
+    private int mPriority;
 
     public Ti(String title, Interval interval, String category,
             String description) {
@@ -21,11 +23,13 @@ public class Ti implements Comparable<Ti> {
         mDescription = "";
         mCategory = "";
         mProportion = 0;
+        mPriority = 1;
     }
 
-    public Ti(String title, double proportion) {
+    public Ti(String title, double proportion, int priority) {
         mTitle = title;
         mProportion = proportion;
+        mPriority = priority;
     }
 
     public String getTitle() {
@@ -82,6 +86,14 @@ public class Ti implements Comparable<Ti> {
         }
 
         return 0;
+    }
+
+    public int getPriority() {
+        return mPriority;
+    }
+
+    public void setPriority(int priority) {
+        mPriority = priority;
     }
 
 }

@@ -12,8 +12,8 @@
         android:id="@+id/layout_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:padding="8dp" >
 
         <TextView
             android:id="@+id/textViewTitle"
@@ -65,8 +65,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/textViewTiBegin"
-            android:layout_toRightOf="@+id/textViewTiBegin"
             android:layout_alignLeft="@+id/editTextTitle"
+            android:layout_toRightOf="@+id/textViewTiBegin"
             android:text="@string/time_begin" />
 
         <TextView
@@ -81,10 +81,26 @@
             android:id="@+id/textViewTimeEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/textViewTiEnd"
             android:layout_alignBaseline="@+id/textViewTiEnd"
             android:layout_alignLeft="@+id/textViewTimeBegin"
+            android:layout_toRightOf="@+id/textViewTiEnd"
             android:text="@string/time_end" />
+
+        <TextView
+            android:id="@+id/textViewPriority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTiEnd"
+            android:layout_marginTop="8dp"
+            android:text="@string/priority" />
+
+        <Spinner
+            android:id="@+id/spinnerPriority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTiEnd"
+            android:layout_toRightOf="@+id/textViewPriority" />
+
     </RelativeLayout>
 
     <RelativeLayout

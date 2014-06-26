@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="planets_array">
+        <item>Muito Alta</item>
+        <item>Alta</item>
+        <item>Média</item>
+        <item>Baixa</item>
+        <item>Muito Baixa</item>
+    </string-array>
+</resources>
