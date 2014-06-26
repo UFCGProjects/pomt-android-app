@@ -22,12 +22,19 @@ public class TestMain extends ActivityInstrumentationTestCase2<AuthActivity> {
 
 	public void testLogin() throws Exception {
 		View buttonSignIn = mSolo.getView(R.id.buttonContinuar);
-		
-	
-		mSolo.clickOnView(buttonSignIn);
-		
-	///	mSolo.assertCurrentActivity("OK",MainActivity.class);
+		View buttonLogout = mSolo.getView(R.id.buttonLogout);
 
+		mSolo.clickOnView(buttonSignIn);
+
+		mSolo.goBackToActivity("AuthActivity");
+		mSolo.clickOnView(buttonLogout);
+
+	}
+
+	public void testRegistraTI() throws Exception {
+		View buttonSignIn = mSolo.getView(R.id.buttonContinuar);
+		mSolo.clickOnView(buttonSignIn);
+		mSolo.assertCurrentActivity("OK", MainActivity.class);
 
 	}
 
