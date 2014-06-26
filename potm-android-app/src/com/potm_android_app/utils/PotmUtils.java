@@ -1,9 +1,11 @@
+
 package com.potm_android_app.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -22,8 +24,8 @@ import com.potm_android_app.R;
 
 public class PotmUtils {
 
-    private static final String URL = "http://pomt.herokuapp.com/api/ti";
-    //    private static final String URL = "http://192.168.1.244:5000/api/ti";
+    //    private static final String URL = "http://pomt.herokuapp.com/api/ti";
+    private static final String URL = "http://192.168.1.244:5000/api/ti";
 
     /**
      * The Constant mFormat.
@@ -89,6 +91,38 @@ public class PotmUtils {
         return null;
     }
 
+    public static String sendPOST(String myurl, String paramns)
+            throws IOException {
+
+        final URL url = new URL(myurl);
+        final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setReadTimeout(10000);
+        conn.setConnectTimeout(15000);
+        conn.setRequestMethod("POST");
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+
+        final OutputStreamWriter osw = new OutputStreamWriter(
+                conn.getOutputStream());
+        osw.write(paramns);
+        osw.flush();
+
+        final BufferedReader br = new BufferedReader(new InputStreamReader(
+                conn.getInputStream()));
+
+        String contentAsString = "";
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            contentAsString += line;
+        }
+
+        osw.close();
+        br.close();
+
+        return contentAsString;
+    }
+
     public static boolean isConnected(Activity act) {
         final ConnectivityManager connMgr = (ConnectivityManager) act
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -115,7 +149,7 @@ public class PotmUtils {
 
     /**
      * Gets the date time format.
-     *
+     * 
      * @return the date time format
      */
     public static DateTimeFormatter getDateTimeFormat() {

@@ -1,3 +1,4 @@
+
 package com.potm_android_app;
 
 import java.util.ArrayList;
@@ -10,8 +11,11 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -24,23 +28,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TimePicker;
 
 import com.potm_android_app.adapter.TabsPagerAdapter;
-import com.potm_android_app.asynctask.DownloadJSONTask;
-import com.potm_android_app.asynctask.DownloadJSONTask.DownloadJSONInterface;
+import com.potm_android_app.asynctask.GetJSONTask;
+import com.potm_android_app.asynctask.GetJSONTask.DownloadJSONInterface;
 import com.potm_android_app.fragment.WeekFragment;
 import com.potm_android_app.model.Ti;
+import com.potm_android_app.screen.registerti.RegisterTiActivity;
 import com.potm_android_app.utils.MyLog;
 import com.potm_android_app.utils.PotmUtils;
 
 public class MainActivity extends FragmentActivity implements
         ActionBar.TabListener, DownloadJSONInterface {
 
-    Intent intent;
+    private static final int REGISTER_TI = 800;
     TabsPagerAdapter mTabsAdapter;
 
     ViewPager mViewPager;
-    RegisterDialog dialog;
 
     ProgressDialog progress;
     private static ArrayList<Ti> list;
@@ -107,24 +112,26 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case android.R.id.home:
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
-        case R.id.action_add_ti:
-            if (isConnected()) {
-                dialog = new RegisterDialog(this, titles);
-                dialog.show();
-            } else {
-                PotmUtils.showNotConnected(this);
-            }
-            return true;
+            case android.R.id.home:
+                // This ID represents the Home or Up button. In the case of this
+                // activity, the Up button is shown. Use NavUtils to allow users
+                // to navigate up one level in the application structure. For
+                // more details, see the Navigation pattern on Android Design:
+                //
+                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+                //
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_add_ti:
+                if (isConnected()) {
+                    //                    dialog = new RegisterDialog(this, titles);
+                    //                    dialog.show();
+                    Intent intent = new Intent(MainActivity.this, RegisterTiActivity.class);
+                    startActivityForResult(intent, REGISTER_TI);
+                } else {
+                    PotmUtils.showNotConnected(this);
+                }
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -148,17 +155,19 @@ public class MainActivity extends FragmentActivity implements
             FragmentTransaction fragmentTransaction) {
     }
 
-    private void requestTis() {
+    public void requestTis() {
         launchRingDialog();
         if (isConnected()) {
-            new DownloadJSONTask(this).execute(PotmUtils.getServerURL());
+            new GetJSONTask(this).execute(PotmUtils.getServerURL());
         } else {
             PotmUtils.showNotConnected(this);
         }
     }
 
     @Override
-    public void callback(JSONObject json) {
+    public void callbackDownloadJSON(JSONObject json) {
+        MyLog.debug("Callback received: " + json.toString());
+
         int week = new DateTime().getWeekOfWeekyear();
 
         for (int i = 0; i < 3; i++) {

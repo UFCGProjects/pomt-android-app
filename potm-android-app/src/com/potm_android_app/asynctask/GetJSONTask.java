@@ -1,6 +1,6 @@
+
 package com.potm_android_app.asynctask;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,11 +10,11 @@ import android.os.AsyncTask;
 import com.potm_android_app.utils.MyLog;
 import com.potm_android_app.utils.PotmUtils;
 
-public class DownloadJSONTask extends AsyncTask<String, Void, String> {
-    private final Context context;
+public class GetJSONTask extends AsyncTask<String, Void, String> {
+    private final Context mContext;
 
-    public DownloadJSONTask(Context context) {
-        this.context = context;
+    public GetJSONTask(Context context) {
+        mContext = context;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class DownloadJSONTask extends AsyncTask<String, Void, String> {
         try {
             mainObject = new JSONObject(result);
 
-            ((DownloadJSONInterface) context).callback(mainObject);
+            ((DownloadJSONInterface) mContext).callbackDownloadJSON(mainObject);
 
         } catch (final JSONException e) {
             MyLog.debug(result);
@@ -63,6 +63,6 @@ public class DownloadJSONTask extends AsyncTask<String, Void, String> {
     }
 
     public interface DownloadJSONInterface {
-        public void callback(JSONObject json);
+        public void callbackDownloadJSON(JSONObject json);
     }
 }
