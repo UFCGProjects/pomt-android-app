@@ -9,8 +9,11 @@ import android.util.Log;
 /**
  * The Class MyLog.
  */
-public abstract class MyLog {
+public final class MyLog {
 
+	private MyLog(){
+		
+	}
     /**
      * The Constant TAG.
      */

@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -44,7 +45,7 @@ public class MainActivity extends FragmentActivity implements
 
     ProgressDialog progress;
     private ArrayList<Ti> list;
-    private List<String> titles = new ArrayList<String>();
+    private final List<String> titles = new ArrayList<String>();
     private ProgressDialog mDialog;
     private boolean mFirstTime;
 
@@ -141,10 +142,6 @@ public class MainActivity extends FragmentActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab,
-            FragmentTransaction fragmentTransaction) {
-    }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab,
@@ -153,11 +150,6 @@ public class MainActivity extends FragmentActivity implements
         if (mViewPager != null) {
             mViewPager.setCurrentItem(tab.getPosition());
         }
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab,
-            FragmentTransaction fragmentTransaction) {
     }
 
     public void requestTis() {
@@ -233,11 +225,8 @@ public class MainActivity extends FragmentActivity implements
 
             }
 
-            if (mTabsAdapter != null) {
-                if (fragment instanceof WeekFragment) {
-                    ((WeekFragment) fragment).refreshUI(list,
-                            json.getDouble("total"));
-                }
+            if (mTabsAdapter != null && fragment instanceof WeekFragment) {                
+                    ((WeekFragment) fragment).refreshUI(list,json.getDouble("total"));
             }
 
         } catch (JSONException e) {
@@ -255,5 +244,14 @@ public class MainActivity extends FragmentActivity implements
         }
 
     }
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	}
 
 }

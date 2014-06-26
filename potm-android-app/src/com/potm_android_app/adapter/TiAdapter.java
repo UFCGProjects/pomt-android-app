@@ -17,9 +17,9 @@ import com.potm_android_app.utils.PotmUtils;
 
 public class TiAdapter extends ArrayAdapter<Ti> {
 
-    private Context mContext;
-    private int mLayoutResourceId;
-    private ArrayList<Ti> mList;
+    private final Context mContext;
+    private final int mLayoutResourceId;
+    private final ArrayList<Ti> mList;
 
     public TiAdapter(Context context, int layoutResourceId, ArrayList<Ti> list) {
         super(context, layoutResourceId, list);

@@ -45,10 +45,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-
-    }
 
     public Fragment getRegisteredFragment(int position) {
         return registeredFragments.get(position);

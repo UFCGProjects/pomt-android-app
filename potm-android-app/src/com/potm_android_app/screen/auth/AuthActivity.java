@@ -93,16 +93,15 @@ public class AuthActivity extends Activity {
     }
 
     private void refreshButtons() {
-        if (AuthPreferences.getUser(this) != null
-                && AuthPreferences.getToken(this) != null) {
+        if (AuthPreferences.getUser(this) == null && AuthPreferences.getToken(this) == null) {
+        	mButtonContinuar.setVisibility(View.GONE);
+        	mButtonLogout.setVisibility(View.GONE);
+        	mButtonLogin.setVisibility(View.VISIBLE);
 
-            mButtonContinuar.setVisibility(View.VISIBLE);
-            mButtonLogout.setVisibility(View.VISIBLE);
-            mButtonLogin.setVisibility(View.GONE);
         } else {
-            mButtonContinuar.setVisibility(View.GONE);
-            mButtonLogout.setVisibility(View.GONE);
-            mButtonLogin.setVisibility(View.VISIBLE);
+        	mButtonContinuar.setVisibility(View.VISIBLE);
+        	mButtonLogout.setVisibility(View.VISIBLE);
+        	mButtonLogin.setVisibility(View.GONE);
         }
     }
 
@@ -181,15 +180,15 @@ public class AuthActivity extends Activity {
                 Bundle bundle = result.getResult();
 
                 Intent launch = (Intent) bundle.get(AccountManager.KEY_INTENT);
-                if (launch != null) {
-                    startActivityForResult(launch, AUTHORIZATION_CODE);
+                if (launch == null) {
+                	String token = bundle
+                			.getString(AccountManager.KEY_AUTHTOKEN);
+                	
+                	AuthPreferences.setToken(AuthActivity.this, token);
+                	
+                	doCoolAuthenticatedStuff();
                 } else {
-                    String token = bundle
-                            .getString(AccountManager.KEY_AUTHTOKEN);
-
-                    AuthPreferences.setToken(AuthActivity.this, token);
-
-                    doCoolAuthenticatedStuff();
+                	startActivityForResult(launch, AUTHORIZATION_CODE);
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

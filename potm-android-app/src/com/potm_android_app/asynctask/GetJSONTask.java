@@ -31,15 +31,18 @@ public class GetJSONTask extends AsyncTask<String, Void, String> {
 
             result = PotmUtils.downloadUrl(urls[0]);
 
-            if (result != null) {
-                break;
+            if (result == null) {
+            
+            	try {
+                    Thread.sleep(1000);
+                } catch (final InterruptedException e) {
+                    MyLog.error(e.getMessage());
+                }
+            }else{
+            	break;
             }
 
-            try {
-                Thread.sleep(1000);
-            } catch (final InterruptedException e) {
-                MyLog.error(e.getMessage());
-            }
+            
         }
 
         return result;
