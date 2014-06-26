@@ -21,7 +21,6 @@ public class AuthActivity extends Activity {
     private static final int AUTHORIZATION_CODE = 1993;
     private static final int ACCOUNT_CODE = 1601;
 
-    private AuthPreferences authPreferences;
     private AccountManager accountManager;
     private Button mButtonLogin;
     private Button mButtonLogout;

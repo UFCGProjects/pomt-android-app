@@ -43,7 +43,7 @@ public class MainActivity extends FragmentActivity implements
     ViewPager mViewPager;
 
     ProgressDialog progress;
-    private static ArrayList<Ti> list;
+    private ArrayList<Ti> list;
     private List<String> titles = new ArrayList<String>();
     private ProgressDialog mDialog;
     private boolean mFirstTime;

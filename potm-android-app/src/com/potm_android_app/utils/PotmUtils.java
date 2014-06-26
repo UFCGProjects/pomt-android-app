@@ -102,25 +102,23 @@ public class PotmUtils {
         conn.setDoInput(true);
         conn.setDoOutput(true);
 
-        final OutputStreamWriter osw = new OutputStreamWriter(
-                conn.getOutputStream());
+        final OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
         osw.write(paramns);
         osw.flush();
 
-        final BufferedReader br = new BufferedReader(new InputStreamReader(
-                conn.getInputStream()));
+        final BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
 
-        String contentAsString = "";
+        StringBuffer contentAsString = new StringBuffer();
         String line;
 
         while ((line = br.readLine()) != null) {
-            contentAsString += line;
+            contentAsString.append(line);
         }
 
         osw.close();
         br.close();
 
-        return contentAsString;
+        return contentAsString.toString();
     }
 
     public static boolean isConnected(Activity act) {

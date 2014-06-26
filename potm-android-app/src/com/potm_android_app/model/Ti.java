@@ -1,8 +1,6 @@
 
 package com.potm_android_app.model;
 
-import java.util.Comparator;
-
 import org.joda.time.Interval;
 
 import com.potm_android_app.utils.PotmUtils;
@@ -80,15 +78,7 @@ public class Ti implements Comparable<Ti> {
     
     @Override
     public int compareTo(Ti another) {
-    	
-    	if(this.getProportion() == another.getProportion()){
-    		return 0;    		
-    	}else if (this.getProportion() < another.getProportion()) {
-    		return 1;
-    	}
-    	else{
-    		return -1;
-    	}
+    	return Double.compare(this.getProportion(),another.getProportion());
     } 
     
     public int getPriority() {
