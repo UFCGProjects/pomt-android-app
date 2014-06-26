@@ -1,3 +1,4 @@
+
 package com.potm_android_app.adapter;
 
 import java.util.ArrayList;
@@ -67,6 +68,11 @@ public class TiAdapter extends ArrayAdapter<Ti> {
             //                holder.txtDescription = (TextView) view;
             //            }
 
+            view = row.findViewById(R.id.textViewPriority);
+            if (view instanceof TextView) {
+                holder.txtPriority = (TextView) view;
+            }
+
             view = row.findViewById(R.id.textViewProportion);
             if (view instanceof TextView) {
                 holder.txtProportion = (TextView) view;
@@ -87,6 +93,27 @@ public class TiAdapter extends ArrayAdapter<Ti> {
         holder.txtProportion.setText(PotmUtils.formatDouble(ti.getProportion())
                 + "%");
 
+        switch (ti.getPriority()) {
+            case 1:
+                holder.txtPriority.setText("Muito Alta");
+                break;
+            case 2:
+                holder.txtPriority.setText("Alta");
+                break;
+            case 3:
+                holder.txtPriority.setText("Média");
+                break;
+            case 4:
+                holder.txtPriority.setText("Baixa");
+                break;
+            case 5:
+                holder.txtPriority.setText("Muito Baixa");
+                break;
+
+            default:
+                break;
+        }
+
         return row;
 
     }
@@ -95,6 +122,8 @@ public class TiAdapter extends ArrayAdapter<Ti> {
      * The Class PlayerHolder.
      */
     static class TiHolder {
+
+        TextView txtPriority;
 
         TextView txtTitle;
 

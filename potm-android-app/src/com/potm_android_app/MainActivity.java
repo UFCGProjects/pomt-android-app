@@ -11,11 +11,8 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -28,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TimePicker;
 
 import com.potm_android_app.adapter.TabsPagerAdapter;
 import com.potm_android_app.asynctask.GetJSONTask;
@@ -50,6 +46,7 @@ public class MainActivity extends FragmentActivity implements
     ProgressDialog progress;
     private static ArrayList<Ti> list;
     private List<String> titles = new ArrayList<String>();
+    private ProgressDialog mDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,7 +120,7 @@ public class MainActivity extends FragmentActivity implements
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.action_add_ti:
-                if (isConnected()) {
+                if (PotmUtils.isConnected(this)) {
                     //                    dialog = new RegisterDialog(this, titles);
                     //                    dialog.show();
                     Intent intent = new Intent(MainActivity.this, RegisterTiActivity.class);
@@ -156,8 +153,13 @@ public class MainActivity extends FragmentActivity implements
     }
 
     public void requestTis() {
-        launchRingDialog();
-        if (isConnected()) {
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle(R.string.carregando_ti);
+        mDialog.setMessage(getResources().getString(R.string.please_wait));
+        mDialog.setCancelable(false);
+        mDialog.show();
+
+        if (PotmUtils.isConnected(this)) {
             new GetJSONTask(this).execute(PotmUtils.getServerURL());
         } else {
             PotmUtils.showNotConnected(this);
@@ -166,6 +168,7 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void callbackDownloadJSON(JSONObject json) {
+
         MyLog.debug("Callback received: " + json.toString());
 
         int week = new DateTime().getWeekOfWeekyear();
@@ -179,6 +182,8 @@ public class MainActivity extends FragmentActivity implements
                 MyLog.error("Error when parsing json on callback", e);
             }
         }
+
+        mDialog.dismiss();
 
     }
 
@@ -198,8 +203,9 @@ public class MainActivity extends FragmentActivity implements
                     String title = key;
                     double proportion = jsonTis.getJSONObject(key).getDouble(
                             "proporcion") * 100;
+                    int priority = jsonTis.getJSONObject(key).getInt("priority");
 
-                    ti = new Ti(title, proportion);
+                    ti = new Ti(title, proportion, priority);
                     list.add(ti);
                 }
 
@@ -228,31 +234,4 @@ public class MainActivity extends FragmentActivity implements
 
     }
 
-    public void launchRingDialog() {
-        final ProgressDialog ringProgressDialog = ProgressDialog.show(
-                MainActivity.this, "Wait a second...", "Downloading Tis...",
-                true);
-        ringProgressDialog.setCancelable(true);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(10000);
-                } catch (Exception e) {
-
-                }
-                ringProgressDialog.dismiss();
-            }
-        }).start();
-    }
-
-    public boolean isConnected() {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if ((networkInfo != null) && networkInfo.isConnected()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

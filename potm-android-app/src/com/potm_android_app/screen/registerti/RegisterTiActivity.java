@@ -11,8 +11,10 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -30,6 +32,7 @@ public class RegisterTiActivity extends Activity implements PostJSONInterface {
     private TextView mTimeEnd;
     private EditText mTitle;
     private Button mButton;
+    private Spinner mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,9 +128,18 @@ public class RegisterTiActivity extends Activity implements PostJSONInterface {
                 registerTi();
             }
         });
+
+        mSpinner = (Spinner) findViewById(R.id.spinnerPriority);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        mSpinner.setAdapter(adapter);
     }
 
-    protected void registerTi() {
+    protected boolean registerTi() {
         DateTime begin = null;
         DateTime end = null;
         DateTime now = new DateTime();
@@ -136,22 +148,30 @@ public class RegisterTiActivity extends Activity implements PostJSONInterface {
             String[] split = mTimeBegin.getText().toString().split(":");
             begin = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(),
                     Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        } else {
+            return false;
         }
 
         if (mTimeEnd != null) {
             String[] split = mTimeEnd.getText().toString().split(":");
             end = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(),
                     Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-
+        } else {
+            return false;
         }
 
-        if ((begin != null) && (end != null)) {
-            if (end.isBefore(begin)) {
-                PotmUtils.showToast(this, "Hora final deve ser antes que o horário inicial");
-            } else if ((mTitle != null) && (mTitle.getText().toString().trim().length() > 4)) {
-                sendPost(mTitle.getText().toString().trim(), begin, end);
-            }
+        if ((mTitle != null) && (mTitle.getText().toString().trim().length() <= 3)) {
+            PotmUtils.showToast(this, "O titulo da Ti deve conter no minimo 4 letras.");
+            return false;
         }
+
+        if (end.isBefore(begin)) {
+            PotmUtils.showToast(this, "Hora final deve ser antes que o horário inicial");
+            return false;
+        }
+
+        sendPost(mTitle.getText().toString().trim(), begin, end);
+        return true;
     }
 
     private void sendPost(String t, DateTime begin, DateTime end) {
@@ -167,9 +187,10 @@ public class RegisterTiActivity extends Activity implements PostJSONInterface {
         String date_begin = "date_begin=" + begin.getMillis();
         String date_end = "date_end=" + end.getMillis();
         String username = "username=" + "developer";
+        String priority = "priority=" + (5 - mSpinner.getSelectedItemPosition());
 
         new PostJSONTask(this).execute(title + "&" + description + "&" + category + "&"
-                + date_begin + "&" + date_end + "&" + username);
+                + date_begin + "&" + date_end + "&" + username + "&" + priority);
     }
 
     public void setTimeBegin(int hour, int minute) {

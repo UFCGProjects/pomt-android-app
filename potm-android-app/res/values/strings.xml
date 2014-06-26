@@ -7,6 +7,7 @@
     <string name="adicionando_ti">Adicionando Ti</string>
     <string name="activity">Atividade</string>
     <string name="begin">Início</string>
+    <string name="carregando_ti">Carregando Tis</string>
     <string name="cant_without_connection">Impossivel sem conexão.</string>
     <string name="connection_unavailable">Conexão indisponivel.</string>
     <string name="end">Final</string>
@@ -19,6 +20,7 @@
     <string name="label2">Semana Atual</string>
     <string name="label3">Relatório de Atividades</string>
     <string name="no_ti_on_this_week">Você não tem Ti nessa semana.</string>
+    <string name="priority">Prioridade</string>
     <string name="register_dialog_title">Novo Ti</string>
     <string name="register_ti">Registrar Ti</string>
     <string name="registrar">Registrar</string>
