@@ -1,5 +1,5 @@
 
-package com.potm_android_app;
+package screen.main;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,6 +23,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.potm_android_app.R;
+import com.potm_android_app.R.id;
+import com.potm_android_app.R.layout;
+import com.potm_android_app.R.menu;
+import com.potm_android_app.R.string;
 import com.potm_android_app.adapter.TabsPagerAdapter;
 import com.potm_android_app.asynctask.GetJSONTask;
 import com.potm_android_app.asynctask.GetJSONTask.DownloadJSONInterface;

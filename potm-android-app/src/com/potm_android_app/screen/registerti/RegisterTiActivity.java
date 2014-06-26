@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import screen.main.MainActivity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -18,7 +19,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.potm_android_app.MainActivity;
 import com.potm_android_app.R;
 import com.potm_android_app.asynctask.PostJSONTask;
 import com.potm_android_app.asynctask.PostJSONTask.PostJSONInterface;
@@ -88,7 +88,8 @@ public class RegisterTiActivity extends Activity implements PostJSONInterface {
         });
 
         DateTime date = new DateTime();
-        mTimeBegin.setText(date.getHourOfDay() + ":" + date.getMinuteOfHour());
+        mTimeBegin.setText(String.format("%02d", date.getHourOfDay()) + ":"
+                + String.format("%02d", date.getMinuteOfHour()));
 
         view = findViewById(R.id.textViewTimeEnd);
 
@@ -119,7 +120,8 @@ public class RegisterTiActivity extends Activity implements PostJSONInterface {
 
         date = new DateTime();
         date = date.plusHours(2);
-        mTimeEnd.setText(date.getHourOfDay() + ":" + date.getMinuteOfHour());
+        mTimeEnd.setText(String.format("%02d", date.getHourOfDay()) + ":"
+                + String.format("%02d", date.getMinuteOfHour()));
 
         mButton.setOnClickListener(new View.OnClickListener() {
 
@@ -160,7 +162,7 @@ public class RegisterTiActivity extends Activity implements PostJSONInterface {
             return false;
         }
 
-        if ((mTitle != null) && (mTitle.getText().toString().trim().length() <= 3)) {
+        if (mTitle != null && mTitle.getText().toString().trim().length() <= 3) {
             PotmUtils.showToast(this, "O titulo da Ti deve conter no minimo 4 letras.");
             return false;
         }

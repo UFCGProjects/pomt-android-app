@@ -2,6 +2,7 @@
  * Copyright (C) 2014 Embedded Systems and Pervasive Computing Lab - UFCG
  * All rights reserved.
  */
+
 package com.potm_android_app.fragment;
 
 import java.util.ArrayList;
@@ -42,8 +43,11 @@ public class WeekFragment extends Fragment {
 
     private TextView mTotalHours;
 
-    /* (non-Javadoc)
-     * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+    /*
+     * (non-Javadoc)
+     * @see
+     * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
+     * android.view.ViewGroup, android.os.Bundle)
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,11 +79,11 @@ public class WeekFragment extends Fragment {
 
     /**
      * Update players.
-     *
+     * 
      * @param players the players
      */
     public void updateTi(List<Ti> tis) {
-        if ((mListTi != null) && (mTiAdapter != null)) {
+        if (mListTi != null && mTiAdapter != null) {
             mListTi.clear();
 
             mListTi.addAll(tis);
@@ -96,10 +100,16 @@ public class WeekFragment extends Fragment {
 
         updateTi(tis);
 
-        if ((mLayoutTitle != null) && (mTotalHours != null)) {
+        if (mLayoutTitle != null && mTotalHours != null) {
             if (total > 0) {
                 mLayoutTitle.setVisibility(View.VISIBLE);
-                mTotalHours.setText(PotmUtils.formatDouble(total) + " hours");
+
+                if (total < 1) {
+                    int minutos = (int) (total * 60);
+                    mTotalHours.setText(minutos + " minutos");
+                } else {
+                    mTotalHours.setText(PotmUtils.formatDouble(total) + " horas");
+                }
             } else {
                 mLayoutTitle.setVisibility(View.GONE);
             }

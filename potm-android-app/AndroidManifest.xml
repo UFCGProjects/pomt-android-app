@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.potm_android_app.MainActivity"
+            android:name="screen.main.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -29,7 +29,7 @@
         <activity
             android:name="com.potm_android_app.screen.registerti.RegisterTiActivity"
             android:label="@string/title_activity_register_ti"
-            android:parentActivityName="com.potm_android_app.MainActivity" >
+            android:parentActivityName="screen.main.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.potm_android_app.MainActivity" />
