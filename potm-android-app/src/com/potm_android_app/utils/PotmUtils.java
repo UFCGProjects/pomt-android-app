@@ -128,7 +128,7 @@ public class PotmUtils {
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-        if ((networkInfo != null) && networkInfo.isConnected()) {
+        if (networkInfo != null && networkInfo.isConnected()) {
             return true;
         }
 
@@ -161,7 +161,7 @@ public class PotmUtils {
 
         boolean hasFloating = false;
 
-        if ((num - (int) num) != 0) {
+        if (num - (int) num != 0) {
             hasFloating = true;
         }
 

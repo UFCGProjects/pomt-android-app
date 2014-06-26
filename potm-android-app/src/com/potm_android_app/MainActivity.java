@@ -10,12 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -47,11 +44,14 @@ public class MainActivity extends FragmentActivity implements
     private static ArrayList<Ti> list;
     private List<String> titles = new ArrayList<String>();
     private ProgressDialog mDialog;
+    private boolean mFirstTime;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        mFirstTime = true;
 
         progress = new ProgressDialog(this);
 
@@ -96,7 +96,10 @@ public class MainActivity extends FragmentActivity implements
     protected void onResume() {
         super.onResume();
 
-        requestTis();
+        if (mFirstTime) {
+            requestTis();
+            mFirstTime = false;
+        }
     }
 
     @Override
@@ -129,6 +132,9 @@ public class MainActivity extends FragmentActivity implements
                     PotmUtils.showNotConnected(this);
                 }
                 return true;
+            case R.id.refresh:
+                requestTis();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -153,6 +159,8 @@ public class MainActivity extends FragmentActivity implements
     }
 
     public void requestTis() {
+        MyLog.debug("Resquesting Tis...");
+
         mDialog = new ProgressDialog(this);
         mDialog.setTitle(R.string.carregando_ti);
         mDialog.setMessage(getResources().getString(R.string.please_wait));
@@ -168,23 +176,30 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void callbackDownloadJSON(JSONObject json) {
+        if (json != null) {
+            String status = json.optString("status");
 
-        MyLog.debug("Callback received: " + json.toString());
+            if (status != null && status.equalsIgnoreCase("failed")) {
+                PotmUtils.showToast(this, "Falha ao consultar os Tis");
+            } else {
+                MyLog.debug("Callback received: " + json.toString());
 
-        int week = new DateTime().getWeekOfWeekyear();
+                int week = new DateTime().getWeekOfWeekyear();
 
-        for (int i = 0; i < 3; i++) {
-            try {
-                refreshFragment(mTabsAdapter.getRegisteredFragment(i),
-                        json.getJSONObject(String.valueOf(week - i)));
-                allTitles();
-            } catch (JSONException e) {
-                MyLog.error("Error when parsing json on callback", e);
+                for (int i = 0; i < 3; i++) {
+                    try {
+                        refreshFragment(mTabsAdapter.getRegisteredFragment(i),
+                                json.getJSONObject(String.valueOf(week - i)));
+                        allTitles();
+                    } catch (JSONException e) {
+                        MyLog.error("Error when parsing json on callback", e);
+                    }
+                }
+
             }
+
+            mDialog.dismiss();
         }
-
-        mDialog.dismiss();
-
     }
 
     private void refreshFragment(Fragment fragment, JSONObject json) {
@@ -199,7 +214,9 @@ public class MainActivity extends FragmentActivity implements
             while (keys.hasNext()) {
                 String key = (String) keys.next();
 
-                if (jsonTis.get(key) instanceof JSONObject) {
+                if (jsonTis.get(key) instanceof JSONObject
+                        && jsonTis.getJSONObject(key).has("proporcion")
+                        && jsonTis.getJSONObject(key).has("priority")) {
                     String title = key;
                     double proportion = jsonTis.getJSONObject(key).getDouble(
                             "proporcion") * 100;
@@ -207,6 +224,8 @@ public class MainActivity extends FragmentActivity implements
 
                     ti = new Ti(title, proportion, priority);
                     list.add(ti);
+                } else {
+                    MyLog.warning("JSON missing args : " + jsonTis.getJSONObject(key).toString());
                 }
 
             }

@@ -27,7 +27,7 @@ router.get('/ti', function(req, res) {
         if (result[ti.week].tis[ti.title]) {
           result[ti.week].tis[ti.title].hours += ti.hours;
         } else {
-          result[ti.week].tis[ti.title] = { hours : ti.hours, proporcion : -1 };
+          result[ti.week].tis[ti.title] = { hours : ti.hours, proporcion : -1, priority : ti.priority };
         }
 
         result[ti.week].total += ti.hours;

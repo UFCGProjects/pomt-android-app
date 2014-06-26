@@ -94,23 +94,23 @@ public class TiAdapter extends ArrayAdapter<Ti> {
                 + "%");
 
         switch (ti.getPriority()) {
-            case 1:
+            case 5:
                 holder.txtPriority.setText("Muito Alta");
                 break;
-            case 2:
+            case 4:
                 holder.txtPriority.setText("Alta");
                 break;
             case 3:
                 holder.txtPriority.setText("Média");
                 break;
-            case 4:
+            case 2:
                 holder.txtPriority.setText("Baixa");
                 break;
-            case 5:
+            case 1:
                 holder.txtPriority.setText("Muito Baixa");
                 break;
-
             default:
+                holder.txtPriority.setText("");
                 break;
         }
 

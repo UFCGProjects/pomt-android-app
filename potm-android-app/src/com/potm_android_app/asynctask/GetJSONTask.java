@@ -51,8 +51,11 @@ public class GetJSONTask extends AsyncTask<String, Void, String> {
         JSONObject mainObject;
 
         try {
-            mainObject = new JSONObject(result);
-
+            if (result != null) {
+                mainObject = new JSONObject(result);
+            } else {
+                mainObject = new JSONObject("{'status': 'failed'}");
+            }
             ((DownloadJSONInterface) mContext).callbackDownloadJSON(mainObject);
 
         } catch (final JSONException e) {
