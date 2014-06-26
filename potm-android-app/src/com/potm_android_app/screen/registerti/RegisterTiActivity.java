@@ -5,7 +5,6 @@ import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import screen.main.MainActivity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -22,6 +21,8 @@ import android.widget.TimePicker;
 import com.potm_android_app.R;
 import com.potm_android_app.asynctask.PostJSONTask;
 import com.potm_android_app.asynctask.PostJSONTask.PostJSONInterface;
+import com.potm_android_app.screen.main.MainActivity;
+import com.potm_android_app.utils.AuthPreferences;
 import com.potm_android_app.utils.MyLog;
 import com.potm_android_app.utils.PotmUtils;
 
@@ -188,7 +189,7 @@ public class RegisterTiActivity extends Activity implements PostJSONInterface {
         String category = "category=" + "Default";
         String date_begin = "date_begin=" + begin.getMillis();
         String date_end = "date_end=" + end.getMillis();
-        String username = "username=" + "developer";
+        String username = "username=" + AuthPreferences.getUser(this);
         String priority = "priority=" + (5 - mSpinner.getSelectedItemPosition());
 
         new PostJSONTask(this).execute(title + "&" + description + "&" + category + "&"
