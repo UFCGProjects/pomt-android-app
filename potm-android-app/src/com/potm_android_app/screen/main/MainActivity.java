@@ -1,5 +1,5 @@
 
-package screen.main;
+package com.potm_android_app.screen.main;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,16 +24,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.potm_android_app.R;
-import com.potm_android_app.R.id;
-import com.potm_android_app.R.layout;
-import com.potm_android_app.R.menu;
-import com.potm_android_app.R.string;
 import com.potm_android_app.adapter.TabsPagerAdapter;
 import com.potm_android_app.asynctask.GetJSONTask;
 import com.potm_android_app.asynctask.GetJSONTask.DownloadJSONInterface;
 import com.potm_android_app.fragment.WeekFragment;
 import com.potm_android_app.model.Ti;
 import com.potm_android_app.screen.registerti.RegisterTiActivity;
+import com.potm_android_app.utils.AuthPreferences;
 import com.potm_android_app.utils.MyLog;
 import com.potm_android_app.utils.PotmUtils;
 
@@ -173,7 +170,8 @@ public class MainActivity extends FragmentActivity implements
         mDialog.show();
 
         if (PotmUtils.isConnected(this)) {
-            new GetJSONTask(this).execute(PotmUtils.getServerURL());
+            new GetJSONTask(this).execute(PotmUtils.getServerURL() + "/"
+                    + AuthPreferences.getUser(this));
         } else {
             PotmUtils.showNotConnected(this);
         }

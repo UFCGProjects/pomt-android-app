@@ -10,6 +10,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <application
         android:allowBackup="true"
@@ -17,8 +19,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="screen.main.MainActivity"
-            android:label="@string/app_name"
+            android:name="com.potm_android_app.screen.auth.AuthActivity"
+            android:label="@string/auth"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,10 +31,20 @@
         <activity
             android:name="com.potm_android_app.screen.registerti.RegisterTiActivity"
             android:label="@string/title_activity_register_ti"
-            android:parentActivityName="screen.main.MainActivity" >
+            android:parentActivityName="com.potm_android_app.screen.main.MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.potm_android_app.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.potm_android_app.screen.main.MainActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.potm_android_app.screen.auth.AuthActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.potm_android_app.screen.auth.AuthActivity" />
         </activity>
     </application>
 
